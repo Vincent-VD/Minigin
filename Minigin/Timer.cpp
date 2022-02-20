@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "Timer.h"
+#include <chrono>
 
-#define MSTOS 1000.f
 
 namespace Engine
 {
@@ -48,7 +48,6 @@ namespace Engine
 		currentTime = SDL_GetTicks();
 
 		m_ElapsedSec = (float)currentTime - m_PreviousTime; // in ms
-		m_ElapsedSec = (m_ElapsedSec > 0.f) ? MSTOS / m_ElapsedSec : 0.0f;
 		m_PreviousTime = currentTime;
 
 		if (m_IsVSyncEnabled && m_ElapsedSec > m_FrameTimeLimit)

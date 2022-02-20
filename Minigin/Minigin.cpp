@@ -101,7 +101,7 @@ void dae::Minigin::Run()
 		while (doContinue)
 		{
 			timer.Update();
-			std::cout << timer.GetFPS() << std::endl;
+			std::cout << timer.GetElapsedSec() << std::endl;
 			doContinue = input.ProcessInput();
 			sceneManager.Update();
 			renderer.Render();
