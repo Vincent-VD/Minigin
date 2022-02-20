@@ -8,6 +8,8 @@
 #include "TextObject.h"
 #include "GameObject.h"
 #include "Scene.h"
+#include "Timer.h"
+#include <iostream>
 
 using namespace std;
 
@@ -85,6 +87,7 @@ void dae::Minigin::Run()
 
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
+	Engine::Timer::GetInstance().Init();
 
 	LoadGame();
 
@@ -92,11 +95,14 @@ void dae::Minigin::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
+		auto& timer = Engine::Timer::GetInstance();
 
 		// todo: this update loop could use some work.
 		bool doContinue = true;
 		while (doContinue)
 		{
+			std::cout << timer.GetFPS() << std::endl;
+			timer.Update();
 			doContinue = input.ProcessInput();
 			sceneManager.Update();
 			renderer.Render();
