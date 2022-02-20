@@ -1,15 +1,17 @@
 #pragma once
 #include <iostream>
 #include <SDL.h>
+#include "Singleton.h"
 
 namespace Engine
 {
-	class Timer
+	class Timer final : public dae::Singleton<Timer>
 	{
 	public:
-		static Timer* GetInstance();
-		~Timer() = default;
-		static void CleanUp();
+		void Init();
+		//tatic Timer* GetInstance();
+		//~Timer() = default;
+		//static void CleanUp();
 
 		void Reset();
 		void Start();
@@ -21,27 +23,27 @@ namespace Engine
 		float GetTotal() const { return m_TotalTime; };
 
 	private:
-		Timer();
-		~Timer() = default;
-
-		static Timer* m_Instance;
+		//static Timer* m_Instance;
 
 		//runtime counters
-		uint64_t m_BaseTime = 0;
-		uint64_t m_PausedTime = 0;
-		uint64_t m_StopTime = 0;
-		uint64_t m_PreviousTime = 0;
-		uint64_t m_CurrentTime = 0;
+		uint64_t m_BaseTime{};
+		uint64_t m_PausedTime{};
+		uint64_t m_StopTime{};
+		uint64_t m_PreviousTime{};
+		uint64_t m_CurrentTime{};
 
 		//user values
-		uint32_t m_FPS = 0;
-		uint32_t m_FPSCount = 0;
-		float m_TotalTime = 0.f;
-		float m_SecondsPerCount = 0.f;
-		float m_ElapsedSec = 0.f;
-		float m_FPSTimer = 0.f;
+		uint32_t m_FPS{};
+		uint32_t m_FPSCount{};
+		float m_TotalTime{};
+		float m_CountsPerSecond{};
+		float m_FrameTimeLimit;
+		float m_ElapsedSec{};
+		float m_FPSTimer{};
+		const float m_FrameRateTarget{ 60.f };
 
 		bool m_IsPaused{ true };
+		bool m_IsVSyncEnabled{ true };
 	};
 
 }
