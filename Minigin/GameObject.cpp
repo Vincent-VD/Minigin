@@ -56,6 +56,37 @@ burger::TransformComponent* burger::GameObject::GetTransform() const
 	return m_pTransform;
 }
 
+void burger::GameObject::SetParent(GameObject* parent)
+{
+	m_pParent = parent;
+}
+
+burger::GameObject* burger::GameObject::GetParent() const
+{
+	return m_pParent;
+}
+
+size_t burger::GameObject::GetChildCount() const
+{
+	return m_pChildren.size();
+}
+
+burger::GameObject* burger::GameObject::GetChildAt(int index) const
+{
+	return m_pChildren[index];
+}
+
+void burger::GameObject::RemoveChild(int index)
+{
+	m_pChildren.erase(m_pChildren.begin() + index);
+}
+
+void burger::GameObject::AddChild(GameObject* obj)
+{
+	m_pChildren.push_back(obj);
+}
+
+
 //void burger::GameObject::SetTexture(const std::string& filename)
 //{
 //	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);

@@ -66,7 +66,7 @@ void burger::Minigin::LoadGame() const
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto text = new TextComponent("0 FPS", font);
 	go->AddComponent(text);
-	//fps->SetOwner(go);
+	fps->SetOwner(go.get());
 	go->AddComponent(fps);
 	scene.Add(go);
 

@@ -26,7 +26,6 @@ namespace burger
 		//Getters
 		TransformComponent* GetTransform() const;
 
-
 		//Setters
 		//void SetTexture(const std::string& filename);
 		//void SetPosition(float x, float y);
@@ -35,9 +34,19 @@ namespace burger
 		template<typename Component>
 		Component* GetComponent() const;
 
+		void SetParent(GameObject* parent);
+		GameObject* GetParent() const;
+
+		size_t GetChildCount() const;
+		GameObject* GetChildAt(int index) const;
+		void RemoveChild(int index);
+		void AddChild(GameObject* obj);
+
 	private:
 		TransformComponent* m_pTransform;
 		std::vector<RootComponent*> m_pComponents;
+		std::vector<GameObject*> m_pChildren;
+		GameObject* m_pParent;
 		// todo: mmm, every gameobject has a texture? Is that correct?
 		//std::shared_ptr<Texture2D> m_Texture; //Scheduled for deletion
 		bool m_MarkedForDeletion{ false };
