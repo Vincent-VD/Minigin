@@ -5,10 +5,13 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "TextObject.h"
+#include "TextComponent.h"
+#include "FPSComponent.h"
 #include "GameObject.h"
 #include "Scene.h"
 #include "Timer.h"
+
+#include <chrono>
 
 using namespace std;
 
@@ -25,7 +28,7 @@ void PrintSDLVersion()
 		linked.major, linked.minor, linked.patch);
 }
 
-void dae::Minigin::Initialize()
+void burger::Minigin::Initialize()
 {
 	PrintSDLVersion();
 	
@@ -53,26 +56,36 @@ void dae::Minigin::Initialize()
 /**
  * Code constructing the scene world starts here
  */
-void dae::Minigin::LoadGame() const
+void burger::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto go = std::make_shared<GameObject>();
+	auto fps = new FPSComponent();
+	go->GetTransform()->SetPosition(80, 20, 0.f);
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto text = new TextComponent("0 FPS", font);
+	go->AddComponent(text);
+	//fps->SetOwner(go);
+	go->AddComponent(fps);
+	scene.Add(go);
+
+	/*auto go = std::make_shared<GameObject>();
 	go->SetTexture("background.jpg");
 	scene.Add(go);
 
 	go = std::make_shared<GameObject>();
 	go->SetTexture("logo.png");
 	go->SetPosition(216, 180);
-	scene.Add(go);
+	scene.Add(go);*/
 
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
+	/*auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto to = std::make_shared<TextComponent>("Programming 4 Assignment", font);
 	to->SetPosition(80, 20);
-	scene.Add(to);
+	scene.Add(to);*/
 }
 
-void dae::Minigin::Cleanup()
+void burger::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
@@ -80,13 +93,13 @@ void dae::Minigin::Cleanup()
 	SDL_Quit();
 }
 
-void dae::Minigin::Run()
+void burger::Minigin::Run()
 {
 	Initialize();
 
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
-	Engine::Timer::GetInstance().Init();
+	burger::Timer::GetInstance().Init(MsPerFrame);
 
 	LoadGame();
 
@@ -94,17 +107,32 @@ void dae::Minigin::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
-		auto& timer = Engine::Timer::GetInstance();
+		auto& timer = burger::Timer::GetInstance();
 
 		// todo: this update loop could use some work.
 		bool doContinue = true;
+		auto lastTime = std::chrono::high_resolution_clock::now();
+		float lag{};
+		//float fixedTimeStep{ 0.02f };
 		while (doContinue)
 		{
-			timer.Update();
-			std::cout << timer.GetElapsedSec() << std::endl;
+			const auto currentTime = std::chrono::high_resolution_clock::now();
+			float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+			lastTime = currentTime;
+			timer.SetElapsedSec(deltaTime);
+			//timer.Update();
+			//std::cout << timer.GetFPS() << std::endl;
+			lag += deltaTime;
 			doContinue = input.ProcessInput();
+			while (lag >= Minigin::MsPerFrame)
+			{
+				lag -= Minigin::MsPerFrame;
+			}
 			sceneManager.Update();
 			renderer.Render();
+
+			auto sleepTime = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime + std::chrono::milliseconds(Minigin::MsPerFrame) - std::chrono::high_resolution_clock::now());
+			this_thread::sleep_for(sleepTime);
 		}
 	}
 

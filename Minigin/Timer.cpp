@@ -2,8 +2,7 @@
 #include "Timer.h"
 #include <chrono>
 
-
-namespace Engine
+namespace burger
 {
 
 	/*Timer* Timer::GetInstance()
@@ -20,10 +19,10 @@ namespace Engine
 		delete m_Instance;
 	}*/
 
-	void Timer::Init()
+	void Timer::Init(float frameRateTarget)
 	{
 		m_CountsPerSecond = (float)SDL_GetPerformanceFrequency();
-		m_FrameTimeLimit = MSTOS / m_FrameRateTarget;
+		m_FrameTimeLimit = MSTOS / frameRateTarget;
 	}
 
 	void Timer::Reset()

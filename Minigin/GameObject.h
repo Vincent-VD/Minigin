@@ -1,31 +1,60 @@
 #pragma once
-#include "Transform.h"
+#include "TransformComponent.h"
 #include "SceneObject.h"
+#include "RootComponent.h"
 
-namespace dae
+namespace burger
 {
 	class Texture2D;
 
 	// todo: this should become final.
-	class GameObject : public SceneObject
+	class GameObject final : public SceneObject
 	{
 	public:
-		void Update() override;
-		void Render() const override;
-
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
-
-		GameObject() = default;
+		GameObject(const std::vector<RootComponent*>& pComponents = {});
 		virtual ~GameObject();
+		void m_MarkForDeletion();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		void Update() override;
+		void Render() const override;
+		RootComponent* AddComponent(RootComponent* pComponent);
+
+		//Getters
+		TransformComponent* GetTransform() const;
+
+
+		//Setters
+		//void SetTexture(const std::string& filename);
+		//void SetPosition(float x, float y);
+
+		//Template component funtions
+		template<typename Component>
+		Component* GetComponent() const;
+
 	private:
-		Transform m_Transform;
+		TransformComponent* m_pTransform;
+		std::vector<RootComponent*> m_pComponents;
 		// todo: mmm, every gameobject has a texture? Is that correct?
-		std::shared_ptr<Texture2D> m_Texture{};
+		//std::shared_ptr<Texture2D> m_Texture; //Scheduled for deletion
+		bool m_MarkedForDeletion{ false };
 	};
+
+	template<typename Component>
+	inline Component* GameObject::GetComponent() const
+	{
+		for (auto* component : m_pComponents)
+		{
+			Component* curr = dynamic_cast<Component*>(component);
+			if (curr)
+			{
+				return curr;
+			}
+		}
+		return nullptr;
+	}
+
 }

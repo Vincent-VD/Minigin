@@ -3,22 +3,65 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-dae::GameObject::~GameObject() = default;
-
-void dae::GameObject::Update(){}
-
-void dae::GameObject::Render() const
+burger::GameObject::GameObject(const std::vector<RootComponent*>& pComponents)
+	: m_pTransform{ new TransformComponent{} }
+	, m_pComponents{ pComponents }
 {
-	const auto& pos = m_Transform.GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
+
 }
 
-void dae::GameObject::SetTexture(const std::string& filename)
+burger::GameObject::~GameObject()
 {
-	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+	//Remove all components when object is destroyed
+	for (auto* pComponent : m_pComponents)
+	{
+		delete pComponent;
+		pComponent = nullptr;
+	}
+	delete m_pTransform;
 }
 
-void dae::GameObject::SetPosition(float x, float y)
+void burger::GameObject::m_MarkForDeletion()
 {
-	m_Transform.SetPosition(x, y, 0.0f);
+	m_MarkedForDeletion = true;
 }
+
+void burger::GameObject::Update()
+{
+	for (auto* pComponent : m_pComponents)
+	{
+		pComponent->Update();
+	}
+}
+
+void burger::GameObject::Render() const
+{
+	for (auto* pComponent : m_pComponents)
+	{
+		pComponent->Render();
+	}
+	//const auto& pos = m_pTransform->GetPosition();
+	//Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
+}
+
+burger::RootComponent* burger::GameObject::AddComponent(RootComponent* pComponent)
+{
+	pComponent->SetOwner(this);
+	m_pComponents.push_back(pComponent);
+	return pComponent;
+}
+
+burger::TransformComponent* burger::GameObject::GetTransform() const
+{
+	return m_pTransform;
+}
+
+//void burger::GameObject::SetTexture(const std::string& filename)
+//{
+//	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+//}
+//
+//void burger::GameObject::SetPosition(float x, float y)
+//{
+//	m_Transform.SetPosition(x, y, 0.0f);
+//}

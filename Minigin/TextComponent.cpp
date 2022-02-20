@@ -1,15 +1,15 @@
 #include "MiniginPCH.h"
 #include <SDL_ttf.h>
-#include "TextObject.h"
+#include "TextComponent.h"
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
 
-dae::TextObject::TextObject(const std::string& text, const std::shared_ptr<Font>& font) 
+burger::TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& font) 
 	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_TextTexture(nullptr)
 { }
 
-void dae::TextObject::Update()
+void burger::TextComponent::Update()
 {
 	if (m_NeedsUpdate)
 	{
@@ -30,7 +30,7 @@ void dae::TextObject::Update()
 	}
 }
 
-void dae::TextObject::Render() const
+void burger::TextComponent::Render() const
 {
 	if (m_TextTexture != nullptr)
 	{
@@ -40,13 +40,13 @@ void dae::TextObject::Render() const
 }
 
 // This implementation uses the "dirty flag" pattern
-void dae::TextObject::SetText(const std::string& text)
+void burger::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
 }
 
-void dae::TextObject::SetPosition(const float x, const float y)
+void burger::TextComponent::SetPosition(const float x, const float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
 }

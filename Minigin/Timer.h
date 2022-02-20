@@ -6,12 +6,12 @@
 #define MSTOS 1000.f //milliseconds to seconds
 #define STOMS 0.001f //seconds to milliseconds
 
-namespace Engine
+namespace burger
 {
-	class Timer final : public dae::Singleton<Timer>
+	class Timer final : public burger::Singleton<Timer>
 	{
 	public:
-		void Init();
+		void Init(float frameRateTarget);
 		//tatic Timer* GetInstance();
 		//~Timer() = default;
 		//static void CleanUp();
@@ -20,6 +20,12 @@ namespace Engine
 		void Start();
 		void Update();
 		void Stop();
+
+		float GetElapsedSec() { return m_ElapsedSec; };
+		void SetElapsedSec(float elapsedSec)
+		{
+			m_ElapsedSec = elapsedSec;
+		}
 
 		uint32_t GetFPS() const { return m_FPS; };
 		float GetElapsedSec() const { return m_ElapsedSec * STOMS; }; //clamp value? 0.016667 or 0.016

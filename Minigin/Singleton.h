@@ -1,5 +1,5 @@
 #pragma once
-namespace dae
+namespace burger
 {
 	template <typename T>
 	class Singleton
