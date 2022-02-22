@@ -2,6 +2,8 @@
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
+#include "imgui.h"
+//#include "imgui_internal.h"
 
 int GetOpenGLDriverIndex()
 {
@@ -25,6 +27,12 @@ void burger::Renderer::Init(SDL_Window * window)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
+
+	//IMGUI_CHECKVERSION();
+	//ImGui::CreateContext();
+	//ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
+	//ImGui_ImplOpenGL2_Init();
+
 }
 
 void burger::Renderer::Render() const

@@ -21,14 +21,14 @@ namespace burger
 		void Update();
 		void Stop();
 
-		float GetElapsedSec() { return m_ElapsedSec; };
-		void SetElapsedSec(float elapsedSec)
+		float GetDeltaTime() const { return m_ElapsedSec; };
+		void SetDeltaTime(float elapsedSec)
 		{
 			m_ElapsedSec = elapsedSec;
 		}
 
 		uint32_t GetFPS() const { return m_FPS; };
-		float GetElapsedSec() const { return m_ElapsedSec * STOMS; }; //clamp value? 0.016667 or 0.016
+		//float GetElapsedSec() const { return m_ElapsedSec * STOMS; }; //clamp value? 0.016667 or 0.016
 		float GetTotal() const { return m_TotalTime; };
 
 	private:

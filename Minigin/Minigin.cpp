@@ -119,13 +119,14 @@ void burger::Minigin::Run()
 			const auto currentTime = std::chrono::high_resolution_clock::now();
 			float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 			lastTime = currentTime;
-			timer.SetElapsedSec(deltaTime);
+			timer.SetDeltaTime(deltaTime);
 			//timer.Update();
 			//std::cout << timer.GetFPS() << std::endl;
 			lag += deltaTime;
 			doContinue = input.ProcessInput();
 			while (lag >= Minigin::MsPerFrame)
 			{
+				//TODO: fixed update here
 				lag -= Minigin::MsPerFrame;
 			}
 			sceneManager.Update();

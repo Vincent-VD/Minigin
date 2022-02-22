@@ -44,13 +44,6 @@ void burger::GameObject::Render() const
 	//Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 }
 
-burger::RootComponent* burger::GameObject::AddComponent(RootComponent* pComponent)
-{
-	pComponent->SetOwner(this);
-	m_pComponents.push_back(pComponent);
-	return pComponent;
-}
-
 burger::TransformComponent* burger::GameObject::GetTransform() const
 {
 	return m_pTransform;

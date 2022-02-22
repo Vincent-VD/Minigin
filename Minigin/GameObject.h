@@ -21,7 +21,6 @@ namespace burger
 
 		void Update() override;
 		void Render() const override;
-		RootComponent* AddComponent(RootComponent* pComponent);
 
 		//Getters
 		TransformComponent* GetTransform() const;
@@ -33,6 +32,8 @@ namespace burger
 		//Template component funtions
 		template<typename Component>
 		Component* GetComponent() const;
+		template<typename Component>
+		Component* AddComponent(Component* pComponent);
 
 		void SetParent(GameObject* parent);
 		GameObject* GetParent() const;
@@ -64,6 +65,13 @@ namespace burger
 			}
 		}
 		return nullptr;
+	}
+
+	template<typename Component>
+	inline Component* GameObject::AddComponent(Component* component)
+	{
+		m_pComponents.push_back(component);
+		return component;
 	}
 
 }
