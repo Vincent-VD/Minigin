@@ -17,6 +17,8 @@ namespace burger
 	private:
 		float m_ElapsedSec{};
 		uint32_t m_FPS{};
+		float m_UpdateTimer{};
+		const float m_UpdateInterval{ 0.5f };
 		TextComponent* m_pText = nullptr;
 	};
 

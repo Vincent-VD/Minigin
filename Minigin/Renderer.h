@@ -11,7 +11,8 @@ namespace burger
 	{
 		SDL_Renderer* m_Renderer{};
 		SDL_Window* m_Window{};
-		SDL_Color m_clearColor{};	
+		SDL_Color m_clearColor{};
+		bool m_ShowWindow{ true };
 	public:
 		void Init(SDL_Window* window);
 		void Render() const;

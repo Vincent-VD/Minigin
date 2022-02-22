@@ -63,7 +63,7 @@ void burger::Minigin::LoadGame() const
 	auto go = std::make_shared<GameObject>();
 	auto fps = new FPSComponent();
 	go->GetTransform()->SetPosition(80, 20, 0.f);
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 	auto text = new TextComponent("0 FPS", font);
 	go->AddComponent(text);
 	fps->SetOwner(go.get());
@@ -118,8 +118,8 @@ void burger::Minigin::Run()
 		{
 			const auto currentTime = std::chrono::high_resolution_clock::now();
 			float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
-			lastTime = currentTime;
 			timer.SetDeltaTime(deltaTime);
+			lastTime = currentTime;
 			//timer.Update();
 			//std::cout << timer.GetFPS() << std::endl;
 			lag += deltaTime;
@@ -132,7 +132,9 @@ void burger::Minigin::Run()
 			sceneManager.Update();
 			renderer.Render();
 
-			auto sleepTime = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime + std::chrono::milliseconds(Minigin::MsPerFrame) - std::chrono::high_resolution_clock::now());
+			const auto sleepTime = std::chrono::duration_cast<std::chrono::duration<float>>(
+				currentTime + std::chrono::milliseconds(Minigin::MsPerFrame) -
+				std::chrono::high_resolution_clock::now());
 			this_thread::sleep_for(sleepTime);
 		}
 	}
