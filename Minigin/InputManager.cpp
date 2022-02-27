@@ -1,5 +1,8 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
+#include "imgui.h"
+#include "backends/imgui_impl_sdl.h"
+#include "backends/imgui_impl_opengl2.h"
 
 bool burger::InputManager::ProcessInput()
 {
@@ -17,6 +20,7 @@ bool burger::InputManager::ProcessInput()
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			
 		}
+		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
 	return true;

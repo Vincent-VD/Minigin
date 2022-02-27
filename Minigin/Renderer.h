@@ -1,5 +1,10 @@
 #pragma once
 #include "Singleton.h"
+#include "imgui_plot.h"
+
+
+struct SDL_Window;
+struct SDL_Renderer;
 
 namespace burger
 {
@@ -11,7 +16,7 @@ namespace burger
 	{
 		SDL_Renderer* m_Renderer{};
 		SDL_Window* m_Window{};
-		SDL_Color m_clearColor{};
+		//SDL_Color* m_clearColor{};
 		bool m_ShowWindow{ true };
 	public:
 		void Init(SDL_Window* window);
@@ -23,8 +28,12 @@ namespace burger
 
 		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 
-		const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
-		void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }
+		//const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
+		//void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }
+
+	private:
+		void RenderImGuiWindows() const;
+
 	};
 }
 

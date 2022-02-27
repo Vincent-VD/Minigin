@@ -46,7 +46,7 @@ namespace burger
 		uint32_t m_FPSCount{};
 		float m_TotalTime{};
 		float m_CountsPerSecond{};
-		float m_FrameTimeLimit;
+		float m_FrameTimeLimit{};
 		float m_ElapsedSec{};
 		float m_FPSTimer{};
 		const float m_FrameRateTarget{ 60.f };

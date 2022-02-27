@@ -10,6 +10,9 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "Timer.h"
+#include "imgui.h"
+#include "backends/imgui_impl_sdl.h"
+#include "backends/imgui_impl_opengl2.h"
 
 #include <chrono>
 
@@ -41,8 +44,8 @@ void burger::Minigin::Initialize()
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
+		1280,
+		720,
 		SDL_WINDOW_OPENGL
 	);
 	if (m_Window == nullptr) 
@@ -121,7 +124,7 @@ void burger::Minigin::Run()
 			timer.SetDeltaTime(deltaTime);
 			lastTime = currentTime;
 			//timer.Update();
-			//std::cout << timer.GetFPS() << std::endl;
+			//std::cout << deltaTime << std::endl;
 			lag += deltaTime;
 			doContinue = input.ProcessInput();
 			while (lag >= Minigin::MsPerFrame)
@@ -132,9 +135,7 @@ void burger::Minigin::Run()
 			sceneManager.Update();
 			renderer.Render();
 
-			const auto sleepTime = std::chrono::duration_cast<std::chrono::duration<float>>(
-				currentTime + std::chrono::milliseconds(Minigin::MsPerFrame) -
-				std::chrono::high_resolution_clock::now());
+			const auto sleepTime = currentTime + std::chrono::milliseconds(Minigin::MsPerFrame) - std::chrono::high_resolution_clock::now();
 			this_thread::sleep_for(sleepTime);
 		}
 	}
