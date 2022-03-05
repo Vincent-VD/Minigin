@@ -11,6 +11,7 @@ namespace burger
 		void Add(const std::shared_ptr<SceneObject>& object);
 
 		void Update();
+		void FixedUpdate();
 		void Render() const;
 
 		~Scene();

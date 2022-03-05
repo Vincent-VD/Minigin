@@ -20,6 +20,7 @@ namespace burger
 		GameObject& operator=(GameObject&& other) = delete;
 
 		void Update() override;
+		void FixedUpdate() override;
 		void Render() const override;
 
 		//Getters
@@ -34,6 +35,8 @@ namespace burger
 		Component* GetComponent() const;
 		template<typename Component>
 		Component* AddComponent(Component* pComponent);
+		template<typename Component>
+		void RemoveComponent(Component* pComponent);
 
 		void SetParent(GameObject* parent);
 		GameObject* GetParent() const;
@@ -74,4 +77,9 @@ namespace burger
 		return component;
 	}
 
+	template <typename Component>
+	inline void GameObject::RemoveComponent(Component* pComponent)
+	{
+		std::remove_if(m_pComponents.begin, m_pComponents.end(), []<bool>(auto * component) { dynamic_cast<Component*>(component) != nullptr; });
+	}
 }

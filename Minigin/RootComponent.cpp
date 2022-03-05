@@ -3,10 +3,8 @@
 
 burger::RootComponent::RootComponent()
 {
-
 }
 
 burger::RootComponent::~RootComponent()
 {
-
 }

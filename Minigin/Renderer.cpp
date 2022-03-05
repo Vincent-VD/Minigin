@@ -171,6 +171,8 @@ void UpdatePlot(ExType type, ImGui::PlotConfig& cf)
 			y_data[iter] = vec[iter];
 		}
 		break;
+	default:
+		return;
 	}
 	cf.values.xs = x_data;
 	cf.values.ys = y_data;

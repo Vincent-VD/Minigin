@@ -10,6 +10,15 @@ void burger::SceneManager::Update()
 	}
 }
 
+void burger::SceneManager::FixedUpdate()
+{
+	for (auto& scene : m_Scenes)
+	{
+		scene->FixedUpdate();
+	}
+}
+
+
 void burger::SceneManager::Render()
 {
 	for (const auto& scene : m_Scenes)

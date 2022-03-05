@@ -16,6 +16,7 @@ namespace burger
 		RootComponent& operator=(RootComponent&& other) = delete;
 
 		virtual void Update() = 0;
+		virtual void FixedUpdate() = 0;
 		virtual void Render() const {};
 		void SetOwner(GameObject* pOwner) { m_pGameObject = pOwner; }
 

@@ -28,11 +28,21 @@ void burger::GameObject::m_MarkForDeletion()
 
 void burger::GameObject::Update()
 {
+	//m_pTransform->SetPosition();
 	for (auto* pComponent : m_pComponents)
 	{
 		pComponent->Update();
 	}
 }
+
+void burger::GameObject::FixedUpdate()
+{
+	for (auto* pComponent : m_pComponents)
+	{
+		pComponent->FixedUpdate();
+	}
+}
+
 
 void burger::GameObject::Render() const
 {

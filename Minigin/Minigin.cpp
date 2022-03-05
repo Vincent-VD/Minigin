@@ -130,6 +130,7 @@ void burger::Minigin::Run()
 			while (lag >= Minigin::MsPerFrame)
 			{
 				//TODO: fixed update here
+				sceneManager.FixedUpdate();
 				lag -= Minigin::MsPerFrame;
 			}
 			sceneManager.Update();
