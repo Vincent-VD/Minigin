@@ -4,7 +4,7 @@
 #include "backends/imgui_impl_sdl.h"
 #include "backends/imgui_impl_opengl2.h"
 
-bool burger::InputManager::ProcessInput()
+bool cycle::InputManager::ProcessInput()
 {
 	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 	XInputGetState(0, &m_CurrentState);
@@ -26,7 +26,7 @@ bool burger::InputManager::ProcessInput()
 	return true;
 }
 
-bool burger::InputManager::IsPressed(ControllerButton button) const
+bool cycle::InputManager::IsPressed(ControllerButton button) const
 {
 	switch (button)
 	{

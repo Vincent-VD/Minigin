@@ -2,11 +2,11 @@
 #include <SDL_ttf.h>
 #include "Font.h"
 
-TTF_Font* burger::Font::GetFont() const {
+TTF_Font* cycle::Font::GetFont() const {
 	return m_Font;
 }
 
-burger::Font::Font(const std::string& fullPath, unsigned int size) : m_Font(nullptr), m_Size(size)
+cycle::Font::Font(const std::string& fullPath, unsigned int size) : m_Font(nullptr), m_Size(size)
 {
 	m_Font = TTF_OpenFont(fullPath.c_str(), size);
 	if (m_Font == nullptr) 
@@ -15,7 +15,7 @@ burger::Font::Font(const std::string& fullPath, unsigned int size) : m_Font(null
 	}
 }
 
-burger::Font::~Font()
+cycle::Font::~Font()
 {
 	TTF_CloseFont(m_Font);
 }

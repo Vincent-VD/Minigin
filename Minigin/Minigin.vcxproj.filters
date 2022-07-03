@@ -99,6 +99,9 @@
     <ClInclude Include="..\3rdParty\imgui-1.87\imgui_plot.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="Lives.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -175,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.87\imgui_plot.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Lives.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

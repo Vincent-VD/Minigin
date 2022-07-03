@@ -7,7 +7,7 @@
 #include "Texture2D.h"
 #include "Font.h"
 
-void burger::ResourceManager::Init(const std::string& dataPath)
+void cycle::ResourceManager::Init(const std::string& dataPath)
 {
 	m_DataPath = dataPath;
 
@@ -29,7 +29,7 @@ void burger::ResourceManager::Init(const std::string& dataPath)
 	}
 }
 
-std::shared_ptr<burger::Texture2D> burger::ResourceManager::LoadTexture(const std::string& file) const
+std::shared_ptr<cycle::Texture2D> cycle::ResourceManager::LoadTexture(const std::string& file) const
 {
 	const auto fullPath = m_DataPath + file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
@@ -40,7 +40,7 @@ std::shared_ptr<burger::Texture2D> burger::ResourceManager::LoadTexture(const st
 	return std::make_shared<Texture2D>(texture);
 }
 
-std::shared_ptr<burger::Font> burger::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
+std::shared_ptr<cycle::Font> cycle::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
 {
 	return std::make_shared<Font>(m_DataPath + file, size);
 }

@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 
-using namespace burger;
+using namespace cycle;
 
 unsigned int Scene::m_IdCounter = 0;
 

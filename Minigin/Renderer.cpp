@@ -41,7 +41,7 @@ int GetOpenGLDriverIndex()
 	return openglIndex;
 }
 
-void burger::Renderer::Init(SDL_Window * window)
+void cycle::Renderer::Init(SDL_Window * window)
 {
 	m_Window = window;
 	m_Renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -56,7 +56,7 @@ void burger::Renderer::Init(SDL_Window * window)
 	ImGui_ImplOpenGL2_Init();
 }
 
-void burger::Renderer::Render() const
+void cycle::Renderer::Render() const
 {
 	//const auto& color = GetBackgroundColor();
 	//SDL_SetRenderDrawColor(m_Renderer, color.r, color.g, color.b, color.a);
@@ -75,7 +75,7 @@ void burger::Renderer::Render() const
 	SDL_RenderPresent(m_Renderer);
 }
 
-void burger::Renderer::Destroy()
+void cycle::Renderer::Destroy()
 {
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
@@ -88,7 +88,7 @@ void burger::Renderer::Destroy()
 	}
 }
 
-void burger::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void cycle::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
@@ -97,7 +97,7 @@ void burger::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void burger::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void cycle::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
@@ -107,7 +107,7 @@ void burger::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void burger::Renderer::RenderImGuiWindows() const
+void cycle::Renderer::RenderImGuiWindows() const
 {
 	//First ImGui window
 	ImGui::Begin("Exercise 1");

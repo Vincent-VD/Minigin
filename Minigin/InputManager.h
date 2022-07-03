@@ -2,7 +2,7 @@
 #include <XInput.h>
 #include "Singleton.h"
 
-namespace burger
+namespace cycle
 {
 	enum class ControllerButton
 	{

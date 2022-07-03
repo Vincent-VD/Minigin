@@ -2,7 +2,9 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void burger::SceneManager::Update()
+using namespace cycle;
+
+void SceneManager::Update()
 {
 	for(auto& scene : m_Scenes)
 	{
@@ -10,7 +12,7 @@ void burger::SceneManager::Update()
 	}
 }
 
-void burger::SceneManager::FixedUpdate()
+void SceneManager::FixedUpdate()
 {
 	for (auto& scene : m_Scenes)
 	{
@@ -19,7 +21,7 @@ void burger::SceneManager::FixedUpdate()
 }
 
 
-void burger::SceneManager::Render()
+void SceneManager::Render()
 {
 	for (const auto& scene : m_Scenes)
 	{
@@ -27,7 +29,7 @@ void burger::SceneManager::Render()
 	}
 }
 
-burger::Scene& burger::SceneManager::CreateScene(const std::string& name)
+Scene& SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
 	m_Scenes.push_back(scene);

@@ -1,7 +1,7 @@
 #pragma once
 #include "Singleton.h"
 
-namespace burger
+namespace cycle
 {
 	class Texture2D;
 	class Font;

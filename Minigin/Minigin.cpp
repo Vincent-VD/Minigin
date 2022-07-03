@@ -31,7 +31,7 @@ void PrintSDLVersion()
 		linked.major, linked.minor, linked.patch);
 }
 
-void burger::Minigin::Initialize()
+void cycle::Minigin::Initialize()
 {
 	PrintSDLVersion();
 	
@@ -59,7 +59,7 @@ void burger::Minigin::Initialize()
 /**
  * Code constructing the scene world starts here
  */
-void burger::Minigin::LoadGame() const
+void cycle::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
@@ -88,7 +88,7 @@ void burger::Minigin::LoadGame() const
 	scene.Add(to);*/
 }
 
-void burger::Minigin::Cleanup()
+void cycle::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
@@ -96,13 +96,13 @@ void burger::Minigin::Cleanup()
 	SDL_Quit();
 }
 
-void burger::Minigin::Run()
+void cycle::Minigin::Run()
 {
 	Initialize();
 
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
-	burger::Timer::GetInstance().Init(MsPerFrame);
+	cycle::Timer::GetInstance().Init(MsPerFrame);
 
 	LoadGame();
 
@@ -110,7 +110,7 @@ void burger::Minigin::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
-		auto& timer = burger::Timer::GetInstance();
+		auto& timer = cycle::Timer::GetInstance();
 
 		// todo: this update loop could use some work.
 		bool doContinue = true;

@@ -3,7 +3,7 @@
 #include "TransformComponent.h"
 #include "RootComponent.h"
 
-namespace burger
+namespace cycle
 {
 	class Font;
 	class Texture2D;
@@ -11,6 +11,7 @@ namespace burger
 	{
 	public:
 		void Update() override;
+		void FixedUpdate() override;
 		void Render() const override;
 
 		void SetText(const std::string& text);

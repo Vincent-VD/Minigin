@@ -1,7 +1,7 @@
 #pragma once
 #include "SceneManager.h"
 
-namespace burger
+namespace cycle
 {
 	class SceneObject;
 	class Scene

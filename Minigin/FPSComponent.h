@@ -2,7 +2,7 @@
 #include "RootComponent.h"
 #include "GameObject.h"
 
-namespace burger
+namespace cycle
 {
 	class TextComponent;
 
@@ -14,6 +14,8 @@ namespace burger
 
 		uint32_t GetFps() const;
 		void Update() override;
+		void FixedUpdate() override;
+
 	private:
 		float m_ElapsedSec{};
 		uint32_t m_FPS{};

@@ -2,7 +2,7 @@
 #include "Timer.h"
 #include <chrono>
 
-namespace burger
+namespace cycle
 {
 
 	/*Timer* Timer::GetInstance()

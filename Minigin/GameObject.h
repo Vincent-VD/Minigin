@@ -3,7 +3,7 @@
 #include "SceneObject.h"
 #include "RootComponent.h"
 
-namespace burger
+namespace cycle
 {
 	class Texture2D;
 
@@ -43,8 +43,9 @@ namespace burger
 
 		size_t GetChildCount() const;
 		GameObject* GetChildAt(int index) const;
-		void RemoveChild(int index);
-		void AddChild(GameObject* obj);
+
+	protected:
+		void ResetTransform() const;
 
 	private:
 		TransformComponent* m_pTransform;
@@ -54,6 +55,11 @@ namespace burger
 		// todo: mmm, every gameobject has a texture? Is that correct?
 		//std::shared_ptr<Texture2D> m_Texture; //Scheduled for deletion
 		bool m_MarkedForDeletion{ false };
+
+		void RemoveChild(GameObject* obj);
+		void AddChild(GameObject* obj);
+
+		int GetGOIndex(GameObject* obj) const;
 	};
 
 	template<typename Component>

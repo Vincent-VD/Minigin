@@ -3,14 +3,13 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-burger::GameObject::GameObject(const std::vector<RootComponent*>& pComponents)
+cycle::GameObject::GameObject(const std::vector<RootComponent*>& pComponents)
 	: m_pTransform{ new TransformComponent{} }
 	, m_pComponents{ pComponents }
 {
-
 }
 
-burger::GameObject::~GameObject()
+cycle::GameObject::~GameObject()
 {
 	//Remove all components when object is destroyed
 	for (auto* pComponent : m_pComponents)
@@ -21,12 +20,12 @@ burger::GameObject::~GameObject()
 	delete m_pTransform;
 }
 
-void burger::GameObject::m_MarkForDeletion()
+void cycle::GameObject::m_MarkForDeletion()
 {
 	m_MarkedForDeletion = true;
 }
 
-void burger::GameObject::Update()
+void cycle::GameObject::Update()
 {
 	//m_pTransform->SetPosition();
 	for (auto* pComponent : m_pComponents)
@@ -35,7 +34,7 @@ void burger::GameObject::Update()
 	}
 }
 
-void burger::GameObject::FixedUpdate()
+void cycle::GameObject::FixedUpdate()
 {
 	for (auto* pComponent : m_pComponents)
 	{
@@ -44,7 +43,7 @@ void burger::GameObject::FixedUpdate()
 }
 
 
-void burger::GameObject::Render() const
+void cycle::GameObject::Render() const
 {
 	for (auto* pComponent : m_pComponents)
 	{
@@ -54,48 +53,88 @@ void burger::GameObject::Render() const
 	//Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 }
 
-burger::TransformComponent* burger::GameObject::GetTransform() const
+cycle::TransformComponent* cycle::GameObject::GetTransform() const
 {
 	return m_pTransform;
 }
 
-void burger::GameObject::SetParent(GameObject* parent)
+void cycle::GameObject::SetParent(GameObject* parent)
 {
-	m_pParent = parent;
+	if(m_pParent)
+	{
+		m_pParent = parent;
+	}
+	m_pTransform->SetPosition(m_pTransform->GetPosition() - parent->GetTransform()->GetPosition());
+	m_pTransform->SetRotation(m_pTransform->GetRotation() - parent->GetTransform()->GetRotation());
+	m_pTransform->SetScale(m_pTransform->GetScale() / parent->GetTransform()->GetScale());
+
+	parent->AddChild(this);
 }
 
-burger::GameObject* burger::GameObject::GetParent() const
+cycle::GameObject* cycle::GameObject::GetParent() const
 {
 	return m_pParent;
 }
 
-size_t burger::GameObject::GetChildCount() const
+size_t cycle::GameObject::GetChildCount() const
 {
 	return m_pChildren.size();
 }
 
-burger::GameObject* burger::GameObject::GetChildAt(int index) const
+cycle::GameObject* cycle::GameObject::GetChildAt(int index) const
 {
 	return m_pChildren[index];
 }
 
-void burger::GameObject::RemoveChild(int index)
+void cycle::GameObject::ResetTransform() const
 {
-	m_pChildren.erase(m_pChildren.begin() + index);
+	m_pTransform->SetPosition(m_pTransform->GetPosition() + m_pParent->GetTransform()->GetPosition());
+	m_pTransform->SetRotation(m_pTransform->GetRotation() + m_pParent->GetTransform()->GetRotation());
+	m_pTransform->SetScale(m_pTransform->GetScale() * m_pParent->GetTransform()->GetScale());
 }
 
-void burger::GameObject::AddChild(GameObject* obj)
+
+void cycle::GameObject::RemoveChild(GameObject* obj)
 {
+	
+	const int idx{ GetGOIndex(obj) };
+	if(idx != -1)
+	{
+		m_pChildren[idx]->ResetTransform();
+		m_pChildren.erase(m_pChildren.begin() + GetGOIndex(obj));
+		obj->SetParent(nullptr);
+	}
+}
+
+void cycle::GameObject::AddChild(GameObject* obj)
+{
+	if(m_pParent)
+	{
+		m_pParent->RemoveChild(this);
+	}
+	obj->SetParent(this);
 	m_pChildren.push_back(obj);
 }
 
+int cycle::GameObject::GetGOIndex(GameObject* obj) const
+{
+	for(int iter = 0; iter < m_pChildren.size(); ++iter)
+	{
+		if(m_pChildren[iter] == obj)
+		{
+			return iter;
+		}
+	}
+	return -1;
+}
 
-//void burger::GameObject::SetTexture(const std::string& filename)
+
+//void cycle::GameObject::SetTexture(const std::string& filename)
 //{
 //	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
 //}
 //
-//void burger::GameObject::SetPosition(float x, float y)
+//void cycle::GameObject::SetPosition(float x, float y)
 //{
 //	m_Transform.SetPosition(x, y, 0.0f);
 //}

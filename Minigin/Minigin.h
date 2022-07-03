@@ -1,6 +1,6 @@
 #pragma once
 struct SDL_Window;
-namespace burger
+namespace cycle
 {
 	class Minigin
 	{

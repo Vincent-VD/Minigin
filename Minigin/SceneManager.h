@@ -1,7 +1,7 @@
 #pragma once
 #include "Singleton.h"
 
-namespace burger
+namespace cycle
 {
 	class Scene;
 	class SceneManager final : public Singleton<SceneManager>

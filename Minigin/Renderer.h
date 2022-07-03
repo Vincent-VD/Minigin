@@ -6,7 +6,7 @@
 struct SDL_Window;
 struct SDL_Renderer;
 
-namespace burger
+namespace cycle
 {
 	class Texture2D;
 	/**

@@ -3,22 +3,23 @@
 #include "TextComponent.h"
 #include "Timer.h"
 
+using namespace cycle;
 
-burger::FPSComponent::FPSComponent()
+FPSComponent::FPSComponent()
 {
 
 }
 
-burger::FPSComponent::~FPSComponent()
+FPSComponent::~FPSComponent()
 {
 }
 
-uint32_t burger::FPSComponent::GetFps() const
+uint32_t FPSComponent::GetFps() const
 {
 	return m_FPS;
 }
 
-void burger::FPSComponent::Update()
+void FPSComponent::Update()
 {
 	if (!m_pText)
 		m_pText = m_pGameObject->GetComponent<TextComponent>();
@@ -34,4 +35,9 @@ void burger::FPSComponent::Update()
 		}
 		m_UpdateTimer = 0.f;
 	}
+}
+
+void FPSComponent::FixedUpdate()
+{
+	
 }

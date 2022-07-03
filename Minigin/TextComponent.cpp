@@ -5,11 +5,13 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-burger::TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& font) 
+using namespace cycle;
+
+TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& font) 
 	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_TextTexture(nullptr)
 { }
 
-void burger::TextComponent::Update()
+void TextComponent::Update()
 {
 	if (m_NeedsUpdate)
 	{
@@ -30,7 +32,13 @@ void burger::TextComponent::Update()
 	}
 }
 
-void burger::TextComponent::Render() const
+void TextComponent::FixedUpdate()
+{
+	
+}
+
+
+void TextComponent::Render() const
 {
 	if (m_TextTexture != nullptr)
 	{
@@ -40,13 +48,13 @@ void burger::TextComponent::Render() const
 }
 
 // This implementation uses the "dirty flag" pattern
-void burger::TextComponent::SetText(const std::string& text)
+void TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
 }
 
-void burger::TextComponent::SetPosition(const float x, const float y)
+void TextComponent::SetPosition(const float x, const float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
 }

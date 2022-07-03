@@ -1,5 +1,5 @@
 #pragma once
-namespace burger
+namespace cycle
 {
 	class SceneObject
 	{

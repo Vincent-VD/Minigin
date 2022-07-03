@@ -1,6 +1,6 @@
 #pragma once
 
-namespace burger
+namespace cycle
 {
 	class GameObject;
 

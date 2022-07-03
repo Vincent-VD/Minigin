@@ -1,10 +1,10 @@
 #include "MiniginPCH.h"
 #include "RootComponent.h"
 
-burger::RootComponent::RootComponent()
+cycle::RootComponent::RootComponent()
 {
 }
 
-burger::RootComponent::~RootComponent()
+cycle::RootComponent::~RootComponent()
 {
 }

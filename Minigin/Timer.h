@@ -6,9 +6,9 @@
 #define MSTOS 1000.f //milliseconds to seconds
 #define STOMS 0.001f //seconds to milliseconds
 
-namespace burger
+namespace cycle
 {
-	class Timer final : public burger::Singleton<Timer>
+	class Timer final : public cycle::Singleton<Timer>
 	{
 	public:
 		void Init(float frameRateTarget);
