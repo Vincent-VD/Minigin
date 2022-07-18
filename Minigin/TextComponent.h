@@ -10,6 +10,9 @@ namespace cycle
 	class TextComponent final : public RootComponent
 	{
 	public:
+		explicit TextComponent(GameObject* pOwner, const std::string& text, const std::shared_ptr<Font>& font);
+		virtual ~TextComponent() override = default;
+
 		void Update() override;
 		void FixedUpdate() override;
 		void Render() const override;
@@ -17,12 +20,11 @@ namespace cycle
 		void SetText(const std::string& text);
 		void SetPosition(float x, float y);
 
-		explicit TextComponent(const std::string& text, const std::shared_ptr<Font>& font);
-		virtual ~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;
 		TextComponent& operator=(const TextComponent& other) = delete;
 		TextComponent& operator=(TextComponent&& other) = delete;
+
 	private:
 		bool m_NeedsUpdate;
 		std::string m_Text;

@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "Minigin.h"
 #include <thread>
-#include "InputManager.h"
+#include "InputComponent.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
@@ -64,14 +64,22 @@ void cycle::Minigin::LoadGame() const
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto go = std::make_shared<GameObject>();
-	auto fps = new FPSComponent();
+	auto fps = new FPSComponent(go.get());
 	go->GetTransform()->SetPosition(80, 20, 0.f);
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
-	auto text = new TextComponent("0 FPS", font);
+	auto text = new TextComponent(go.get(), "0 FPS", font);
 	go->AddComponent(text);
-	fps->SetOwner(go.get());
 	go->AddComponent(fps);
+
+	auto input = new InputComponent(go.get());
+
+	input->AddCommand(cycle::XBoxController::ControllerButton::ButtonA, std::make_unique<Test>(cycle::Command::InputType::pressed));
+
+	go->AddComponent(input);
+
 	scene.Add(go);
+
+
 
 	/*auto go = std::make_shared<GameObject>();
 	go->SetTexture("background.jpg");
@@ -109,7 +117,6 @@ void cycle::Minigin::Run()
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
-		auto& input = InputManager::GetInstance();
 		auto& timer = cycle::Timer::GetInstance();
 
 		// todo: this update loop could use some work.
@@ -126,7 +133,7 @@ void cycle::Minigin::Run()
 			//timer.Update();
 			//std::cout << deltaTime << std::endl;
 			lag += deltaTime;
-			doContinue = input.ProcessInput();
+			//doContinue = input.ProcessInput();
 			while (lag >= Minigin::MsPerFrame)
 			{
 				//TODO: fixed update here

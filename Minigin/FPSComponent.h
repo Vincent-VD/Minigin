@@ -9,8 +9,8 @@ namespace cycle
 	class FPSComponent final : public RootComponent
 	{
 	public:
-		FPSComponent();
-		virtual ~FPSComponent();
+		FPSComponent(GameObject* pOwner);
+		virtual ~FPSComponent() override;
 
 		uint32_t GetFps() const;
 		void Update() override;

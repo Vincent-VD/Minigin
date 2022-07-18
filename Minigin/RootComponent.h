@@ -7,7 +7,7 @@ namespace cycle
 	class RootComponent
 	{
 	public:
-		RootComponent();
+		RootComponent(GameObject* pOwner);
 		virtual ~RootComponent();
 
 		RootComponent(const RootComponent& other) = delete;
@@ -18,7 +18,6 @@ namespace cycle
 		virtual void Update() = 0;
 		virtual void FixedUpdate() = 0;
 		virtual void Render() const {};
-		void SetOwner(GameObject* pOwner) { m_pGameObject = pOwner; }
 
 	protected:
 		GameObject* m_pGameObject;

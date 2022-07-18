@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "TransformComponent.h"
 #include "SceneObject.h"
 #include "RootComponent.h"
@@ -7,12 +8,11 @@ namespace cycle
 {
 	class Texture2D;
 
-	// todo: this should become final.
 	class GameObject final : public SceneObject
 	{
 	public:
 		GameObject(const std::vector<RootComponent*>& pComponents = {});
-		virtual ~GameObject();
+		virtual ~GameObject() override;
 		void m_MarkForDeletion();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -44,22 +44,17 @@ namespace cycle
 		size_t GetChildCount() const;
 		GameObject* GetChildAt(int index) const;
 
-	protected:
-		void ResetTransform() const;
-
 	private:
 		TransformComponent* m_pTransform;
 		std::vector<RootComponent*> m_pComponents;
 		std::vector<GameObject*> m_pChildren;
 		GameObject* m_pParent;
-		// todo: mmm, every gameobject has a texture? Is that correct?
-		//std::shared_ptr<Texture2D> m_Texture; //Scheduled for deletion
 		bool m_MarkedForDeletion{ false };
 
 		void RemoveChild(GameObject* obj);
 		void AddChild(GameObject* obj);
 
-		int GetGOIndex(GameObject* obj) const;
+		int GetGOIndex(const GameObject* obj) const;
 	};
 
 	template<typename Component>

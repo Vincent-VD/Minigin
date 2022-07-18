@@ -5,7 +5,8 @@
 
 using namespace cycle;
 
-FPSComponent::FPSComponent()
+FPSComponent::FPSComponent(GameObject* pOwner)
+	: RootComponent(pOwner)
 {
 
 }

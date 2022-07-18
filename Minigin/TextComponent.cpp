@@ -7,8 +7,9 @@
 
 using namespace cycle;
 
-TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& font) 
-	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_TextTexture(nullptr)
+TextComponent::TextComponent(GameObject* pOwner, const std::string& text, const std::shared_ptr<Font>& font)
+	: RootComponent(pOwner)
+	, m_NeedsUpdate(true), m_Text(text), m_Font(font), m_TextTexture(nullptr)
 { }
 
 void TextComponent::Update()

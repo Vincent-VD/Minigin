@@ -6,6 +6,7 @@
 cycle::GameObject::GameObject(const std::vector<RootComponent*>& pComponents)
 	: m_pTransform{ new TransformComponent{} }
 	, m_pComponents{ pComponents }
+	, m_pParent{ nullptr }
 {
 }
 
@@ -60,15 +61,13 @@ cycle::TransformComponent* cycle::GameObject::GetTransform() const
 
 void cycle::GameObject::SetParent(GameObject* parent)
 {
-	if(m_pParent)
-	{
-		m_pParent = parent;
-	}
-	m_pTransform->SetPosition(m_pTransform->GetPosition() - parent->GetTransform()->GetPosition());
+	m_pParent = parent;
+	parent->AddChild(this);
+	/*m_pTransform->SetPosition(m_pTransform->GetPosition() - parent->GetTransform()->GetPosition());
 	m_pTransform->SetRotation(m_pTransform->GetRotation() - parent->GetTransform()->GetRotation());
 	m_pTransform->SetScale(m_pTransform->GetScale() / parent->GetTransform()->GetScale());
 
-	parent->AddChild(this);
+	parent->AddChild(this);*/
 }
 
 cycle::GameObject* cycle::GameObject::GetParent() const
@@ -86,13 +85,6 @@ cycle::GameObject* cycle::GameObject::GetChildAt(int index) const
 	return m_pChildren[index];
 }
 
-void cycle::GameObject::ResetTransform() const
-{
-	m_pTransform->SetPosition(m_pTransform->GetPosition() + m_pParent->GetTransform()->GetPosition());
-	m_pTransform->SetRotation(m_pTransform->GetRotation() + m_pParent->GetTransform()->GetRotation());
-	m_pTransform->SetScale(m_pTransform->GetScale() * m_pParent->GetTransform()->GetScale());
-}
-
 
 void cycle::GameObject::RemoveChild(GameObject* obj)
 {
@@ -100,7 +92,6 @@ void cycle::GameObject::RemoveChild(GameObject* obj)
 	const int idx{ GetGOIndex(obj) };
 	if(idx != -1)
 	{
-		m_pChildren[idx]->ResetTransform();
 		m_pChildren.erase(m_pChildren.begin() + GetGOIndex(obj));
 		obj->SetParent(nullptr);
 	}
@@ -112,11 +103,10 @@ void cycle::GameObject::AddChild(GameObject* obj)
 	{
 		m_pParent->RemoveChild(this);
 	}
-	obj->SetParent(this);
 	m_pChildren.push_back(obj);
 }
 
-int cycle::GameObject::GetGOIndex(GameObject* obj) const
+int cycle::GameObject::GetGOIndex(const GameObject* obj) const
 {
 	for(int iter = 0; iter < m_pChildren.size(); ++iter)
 	{
