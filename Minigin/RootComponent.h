@@ -17,7 +17,7 @@ namespace cycle
 
 		virtual void Update() = 0;
 		virtual void FixedUpdate() = 0;
-		virtual void Render() const {};
+		virtual void Render() const {}
 
 	protected:
 		GameObject* m_pGameObject;

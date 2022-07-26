@@ -2,9 +2,11 @@
 #include <memory>
 #include <utility>
 
+#include "InputSystem.h"
+
 namespace cycle
 {
-	class XBoxController
+	class XBoxController final : public InputSystem
 	{
 		class XBoxControllerImpl;
 		XBoxControllerImpl* m_pImpl;
@@ -26,18 +28,20 @@ namespace cycle
 			ButtonX = 0x4000,
 			ButtonY = 0x8000,
 		};
-		void Update() const;
-		bool IsHeld(ControllerButton button) const;
-		bool IsPressed(ControllerButton button) const;
-		bool IsReleased(ControllerButton button) const;
+		void Update() const override;
+		bool IsHeld(int button) const override;
+		bool IsPressed(int button) const override;
+		bool IsReleased(int button) const override;
 
-		float GetLeftTriggerPressure() const;
-		float GetRightTriggerPressure() const;
-		std::pair<float, float> GetLeftStickValues() const;
-		std::pair<float, float> GetRightStickValues() const;
+		float GetLeftTriggerPressure() const override;
+		float GetRightTriggerPressure() const override;
+		std::pair<float, float> GetLeftStickValues() const override;
+		std::pair<float, float> GetRightStickValues() const override;
 
-		explicit XBoxController(int controllerIdx);
-		~XBoxController();
+		int GetConnectedControllers() const override;
+
+		XBoxController(int controllerIdx);
+		virtual ~XBoxController() override;
 		XBoxController(const XBoxController& other) = delete;
 		XBoxController(XBoxController&& other) noexcept = delete;
 		XBoxController& operator=(const XBoxController& other) = delete;

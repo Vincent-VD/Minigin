@@ -16,6 +16,8 @@
 
 #include <chrono>
 
+#include "AudioManager.h"
+
 using namespace std;
 
 void PrintSDLVersion()
@@ -73,7 +75,7 @@ void cycle::Minigin::LoadGame() const
 
 	auto input = new InputComponent(go.get());
 
-	input->AddCommand(cycle::XBoxController::ControllerButton::ButtonA, std::make_unique<Test>(cycle::Command::InputType::pressed));
+	input->AddCommand('A', cycle::XBoxController::ControllerButton::ButtonA, std::make_unique<Test>(cycle::Command::InputType::pressed));
 
 	go->AddComponent(input);
 
@@ -117,7 +119,8 @@ void cycle::Minigin::Run()
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
-		auto& timer = cycle::Timer::GetInstance();
+		auto& timer = Timer::GetInstance();
+		AudioManager::GetInstance();
 
 		// todo: this update loop could use some work.
 		bool doContinue = true;
@@ -133,6 +136,7 @@ void cycle::Minigin::Run()
 			//timer.Update();
 			//std::cout << deltaTime << std::endl;
 			lag += deltaTime;
+			
 			//doContinue = input.ProcessInput();
 			while (lag >= Minigin::MsPerFrame)
 			{
@@ -142,6 +146,10 @@ void cycle::Minigin::Run()
 			}
 			sceneManager.Update();
 			renderer.Render();
+			if(CheckExit())
+			{
+				doContinue = false;
+			}
 
 			const auto sleepTime = currentTime + std::chrono::milliseconds(Minigin::MsPerFrame) - std::chrono::high_resolution_clock::now();
 			this_thread::sleep_for(sleepTime);
@@ -149,4 +157,15 @@ void cycle::Minigin::Run()
 	}
 
 	Cleanup();
+}
+
+bool cycle::Minigin::CheckExit()
+{
+	SDL_Event event;
+	SDL_PollEvent(&event);
+	if(event.type == SDL_QUIT)
+	{
+		return true;
+	}
+	return false;
 }

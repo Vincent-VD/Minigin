@@ -68,7 +68,7 @@ void cycle::Renderer::Render() const
 	ImGui_ImplSDL2_NewFrame(m_Window);
 	ImGui::NewFrame();
 	//ImGui::ShowDemoWindow();
-	RenderImGuiWindows();
+	//RenderImGuiWindows();
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 

@@ -6,9 +6,7 @@
 namespace cycle
 {
 	class Observer;
-
 	
-
 	class Subject : public RootComponent
 	{
 	public:

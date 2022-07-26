@@ -1,5 +1,6 @@
 #include "AudioManager.h"
 #include <algorithm>
+#include <thread>
 
 using namespace cycle;
 
@@ -9,6 +10,21 @@ void AudioManager::Init()
 	m_Tail = 0;
 	m_PendingSounds = std::vector<SoundDesc>(MAX_PENDING);
 	//todo: init fmod
+	FMOD_RESULT result;
+	result = FMOD::System_Create(&m_pFmodSystem);
+	if(result != FMOD_OK)
+	{
+		
+		printf("FMOD error! (%d) \n", result);
+		//exit(-1);
+	}
+
+	result = m_pFmodSystem->init(100, FMOD_INIT_NORMAL, nullptr);	// Initialize FMOD.
+	if (result != FMOD_OK)
+	{
+		printf("FMOD error! (%d) \n", result);
+		//exit(-1);
+	}
 }
 
 void AudioManager::PlayAudio(SoundDesc soundDesc)

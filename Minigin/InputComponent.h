@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <map>
+
+#include "Keyboard.h"
 #include "RootComponent.h"
 #include "XBoxController.h"
 
@@ -36,14 +38,16 @@ namespace cycle
 	class InputComponent final : public RootComponent
 	{
 	public:
-		InputComponent(GameObject* pOwner)
+		InputComponent(GameObject* pOwner, int playerId = 0)
 			: RootComponent(pOwner)
-			, m_pController{ new XBoxController{0} }
+			, m_pController{ new XBoxController{playerId} }
+			, m_pKeyboard( new Keyboard() )
 		{
 		}
 		virtual ~InputComponent() override
 		{
 			delete m_pController;
+			delete m_pKeyboard;
 			m_CommandsMap.clear();
 		}
 
@@ -57,13 +61,18 @@ namespace cycle
 		bool IsHeld(XBoxController::ControllerButton button) const;
 		bool IsReleased(XBoxController::ControllerButton button) const;
 
-		void AddCommand(XBoxController::ControllerButton button, std::unique_ptr<Command> command);
+		float GetLeftTriggerPressure() const;
+		float GetRightTriggerPressure() const;
+		std::pair<float, float> GetLeftStickValues() const;
+		std::pair<float, float> GetRightStickValues() const;
+
+		void AddCommand(int key, XBoxController::ControllerButton button, std::unique_ptr<Command> command);
 		void Update() override;
 		void FixedUpdate() override;
 
-
 	private:
 		XBoxController* m_pController;
+		Keyboard* m_pKeyboard;
 		std::map<cycle::XBoxController::ControllerButton, std::unique_ptr<Command>> m_CommandsMap{};
 	};
 

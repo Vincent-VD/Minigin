@@ -70,16 +70,16 @@ public:
 
 	std::pair<float, float> GetLeftStickValuesThisFrame() const
 	{
-		float normLX = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbLX) / 32767);
-		float normLY = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbLY) / 32767);
+		const float normLX = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbLX) / 32767);
+		const float normLY = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbLY) / 32767);
 		float leftStickX = (abs(normLX) < m_TriggerDZ ? 0 : normLX);
 		float leftStickY = (abs(normLY) < m_TriggerDZ ? 0 : normLY);
 		return std::pair<float, float>{ leftStickX, leftStickY };
 	}
 	std::pair<float, float> GetRightStickValuesThisFrame() const
 	{
-		float normRX = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbRX) / 32767);
-		float normRY = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbRY) / 32767);
+		const float normRX = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbRX) / 32767);
+		const float normRY = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbRY) / 32767);
 		float rightStickX = (abs(normRX) < m_TriggerDZ ? 0 : normRX);
 		float rightStickY = (abs(normRY) < m_TriggerDZ ? 0 : normRY);
 		return std::pair<float, float>{ rightStickX, rightStickY };
@@ -114,17 +114,17 @@ void XBoxController::Update() const
 	m_pImpl->Update();
 }
 
-bool XBoxController::IsHeld(ControllerButton button) const
+bool XBoxController::IsHeld(int button) const
 {
 	return m_pImpl->IsHeldThisFrame(static_cast<unsigned int>(button));
 }
 
-bool XBoxController::IsPressed(ControllerButton button) const
+bool XBoxController::IsPressed(int button) const
 {
 	return m_pImpl->IsPressedThisFrame(static_cast<unsigned int>(button));
 }
 
-bool XBoxController::IsReleased(ControllerButton button) const
+bool XBoxController::IsReleased(int button) const
 {
 	return m_pImpl->IsReleasedThisFrame(static_cast<unsigned int>(button));
 }
@@ -149,3 +149,21 @@ std::pair<float, float> XBoxController::GetRightStickValues() const
 	return m_pImpl->GetRightStickValuesThisFrame();
 }
 
+int XBoxController::GetConnectedControllers() const
+{
+	int res{};
+	for (DWORD i = 0; i < XUSER_MAX_COUNT; i++)
+	{
+		XINPUT_STATE state;
+		ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+		// Simply get the state of the controller from XInput.
+		const DWORD dwResult = XInputGetState(i, &state);
+
+		if (dwResult == ERROR_SUCCESS)
+		{
+			++res;
+		}
+	}
+	return res;
+}

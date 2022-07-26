@@ -5,25 +5,26 @@ using namespace cycle;
 void InputComponent::ProcessInput()
 {
 	m_pController->Update();
+	m_pKeyboard->Update();
 
 	for (auto iter = m_CommandsMap.begin(); iter != m_CommandsMap.end(); ++iter)
 	{
 		switch (iter->second->m_InputType)
 		{
 		case Command::InputType::held:
-			if (m_pController->IsHeld(iter->first))
+			if (m_pController->IsHeld(static_cast<int>(iter->first)))
 			{
 				iter->second->Execute();
 			}
 			break;
 		case Command::InputType::pressed:
-			if (m_pController->IsPressed(iter->first))
+			if (m_pController->IsPressed(static_cast<int>(iter->first)))
 			{
 				iter->second->Execute();
 			}
 			break;
 		case Command::InputType::released:
-			if (m_pController->IsReleased(iter->first))
+			if (m_pController->IsReleased(static_cast<int>(iter->first)))
 			{
 				iter->second->Execute();
 			}
@@ -34,21 +35,22 @@ void InputComponent::ProcessInput()
 
 bool InputComponent::IsPressed(XBoxController::ControllerButton button) const
 {
-	return m_pController->IsPressed(button);
+	return m_pController->IsPressed(static_cast<int>(button));
 }
 
 bool InputComponent::IsHeld(XBoxController::ControllerButton button) const
 {
-	return m_pController->IsHeld(button);
+	return m_pController->IsHeld(static_cast<int>(button));
 }
 
 bool InputComponent::IsReleased(XBoxController::ControllerButton button) const
 {
-	return m_pController->IsReleased(button);
+	return m_pController->IsReleased(static_cast<int>(button));
 }
 
-void InputComponent::AddCommand(XBoxController::ControllerButton button, std::unique_ptr<cycle::Command> command)
+void InputComponent::AddCommand(int /*key*/, XBoxController::ControllerButton button, std::unique_ptr<cycle::Command> command)
 {
+
 	m_CommandsMap[button] = std::move(command);
 }
 
