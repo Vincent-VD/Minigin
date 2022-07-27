@@ -113,6 +113,7 @@ void cycle::Minigin::Run()
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 	cycle::Timer::GetInstance().Init(MsPerFrame);
+	AudioManager::GetInstance().Init();
 
 	LoadGame();
 
@@ -120,7 +121,7 @@ void cycle::Minigin::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& timer = Timer::GetInstance();
-		AudioManager::GetInstance();
+		
 
 		// todo: this update loop could use some work.
 		bool doContinue = true;

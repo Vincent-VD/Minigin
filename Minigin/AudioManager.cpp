@@ -1,5 +1,6 @@
 #include "AudioManager.h"
 #include <algorithm>
+#include <iostream>
 #include <thread>
 
 using namespace cycle;
@@ -25,6 +26,29 @@ void AudioManager::Init()
 		printf("FMOD error! (%d) \n", result);
 		//exit(-1);
 	}
+
+	FMOD::ChannelGroup* channelGroup = nullptr;
+	result = m_pFmodSystem->createChannelGroup("inGameSoundEffects", &channelGroup);
+	if (result != FMOD_OK)
+	{
+		std::cout << "FMOD: Failed to create in-game sound effects channel group\n";
+		//exit(-1);
+	}
+
+	FMOD::Sound* sound{};
+	if(m_pFmodSystem->createSound("Source/S_Car_Pain_Edition_Overflow.mp3", FMOD_DEFAULT, nullptr, &sound) != FMOD_OK)
+	{
+		std::cout << "SDEFGHSDFJKFGSFD\n";
+	}
+
+	FMOD::Channel* channel = nullptr;
+	result = m_pFmodSystem->playSound(sound, nullptr, false, &channel);
+	if (result != FMOD_OK)
+	{
+		std::cout << "FMOD: Failed to play sound\n";
+		//exit(-1);
+	}
+
 }
 
 void AudioManager::PlayAudio(SoundDesc soundDesc)
@@ -45,4 +69,5 @@ void AudioManager::PlayAudio(SoundDesc soundDesc)
 void AudioManager::Update()
 {
 	//todo: play & thread audio
+	
 }
