@@ -113,7 +113,9 @@ void cycle::Minigin::Run()
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 	cycle::Timer::GetInstance().Init(MsPerFrame);
-	AudioManager::GetInstance().Init();
+	AudioManager& audioManager{ AudioManager::GetInstance() };
+	audioManager.Init();
+	//std::cout << "Main thread ID: " << std::this_thread::get_id() << std::endl;
 
 	LoadGame();
 
@@ -121,6 +123,8 @@ void cycle::Minigin::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& timer = Timer::GetInstance();
+
+		audioManager.PlayAudio(SoundDesc{ SoundId::theme, 1.f });
 		
 
 		// todo: this update loop could use some work.
@@ -145,6 +149,7 @@ void cycle::Minigin::Run()
 				sceneManager.FixedUpdate();
 				lag -= Minigin::MsPerFrame;
 			}
+			audioManager.Update();
 			sceneManager.Update();
 			renderer.Render();
 			if(CheckExit())
@@ -157,6 +162,7 @@ void cycle::Minigin::Run()
 		}
 	}
 
+	//t1.join();
 	Cleanup();
 }
 

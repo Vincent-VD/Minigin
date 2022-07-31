@@ -1,5 +1,6 @@
 #include "InputComponent.h"
 
+
 using namespace cycle;
 
 void InputComponent::ProcessInput()

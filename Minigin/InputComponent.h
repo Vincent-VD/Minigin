@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
 #include <map>
+#include <thread>
 
+#include "AudioManager.h"
 #include "Keyboard.h"
 #include "RootComponent.h"
 #include "XBoxController.h"
@@ -32,7 +34,11 @@ namespace cycle
 	{
 	public:
 		Test(InputType type) : Command(type) {}
-		void Execute() override { std::cout << "Fire\n"; }
+		void Execute() override
+		{
+			AudioManager& audioManager{ AudioManager::GetInstance() };
+			audioManager.PlayAudio(SoundDesc{ SoundId::ram, 1.f });
+		}
 	};
 
 	class InputComponent final : public RootComponent

@@ -1,4 +1,5 @@
 #pragma once
+#include <thread>
 struct SDL_Window;
 namespace cycle
 {
