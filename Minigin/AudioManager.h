@@ -1,8 +1,12 @@
 #pragma once
 #include "Singleton.h"
 #include <vector>
-#include "fmod.hpp"
 
+
+namespace FMOD
+{
+	class System;
+}
 
 namespace cycle
 {

@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <thread>
 #include <SDL_mixer.h>
+#include "fmod.hpp"
 
 using namespace cycle;
 

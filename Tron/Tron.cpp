@@ -5,9 +5,12 @@
 #endif
 
 #include "Minigin.h"
+#include "TronGame.h"
 
 int main(int, char* []) {
 	cycle::Minigin engine;
+	const TronGame game{};
+	engine.SetGame(&game);
 	engine.Run();
 	return 0;
 }

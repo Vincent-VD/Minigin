@@ -17,6 +17,7 @@
 #include <chrono>
 
 #include "AudioManager.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -82,7 +83,6 @@ void cycle::Minigin::LoadGame() const
 	scene.Add(go);
 
 
-
 	/*auto go = std::make_shared<GameObject>();
 	go->SetTexture("background.jpg");
 	scene.Add(go);
@@ -117,7 +117,7 @@ void cycle::Minigin::Run()
 	audioManager.Init();
 	//std::cout << "Main thread ID: " << std::this_thread::get_id() << std::endl;
 
-	LoadGame();
+	m_pGame->LoadGame();
 
 	{
 		auto& renderer = Renderer::GetInstance();
