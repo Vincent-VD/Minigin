@@ -12,5 +12,8 @@ public:
 	TronGame& operator=(TronGame&& other) noexcept = delete;
 
 	virtual void LoadGame() const override;
+
+	
+
 };
 

@@ -20,3 +20,4 @@ namespace cycle
 		SDL_Texture* m_Texture;
 	};
 }
+

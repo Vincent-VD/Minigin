@@ -21,9 +21,15 @@
     <ClCompile Include="TronGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextureComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TronGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -47,7 +47,7 @@ void cycle::Minigin::Initialize()
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		1280,
+		640,
 		720,
 		SDL_WINDOW_OPENGL
 	);
