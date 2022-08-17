@@ -233,6 +233,7 @@
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="TextureComponent2D.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TrashTheCache.h" />
@@ -339,6 +340,7 @@
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="TextureComponent2D.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="TrashTheCache.cpp" />

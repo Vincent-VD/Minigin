@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "Texture2D.h"
 
-namespace Tron
+namespace cycle
 {
 	TextureComponent::TextureComponent(cycle::GameObject* owner, cycle::Texture2D* texture, float left, float bottom, float width, float height, bool isDynamic)
 		: RootComponent(owner)

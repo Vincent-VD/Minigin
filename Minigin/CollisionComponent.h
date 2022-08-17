@@ -1,21 +1,10 @@
 #pragma once
 #include "RootComponent.h"
 
-struct Point2f
-{
-	Point2f();
-	explicit Point2f(float x, float y);
-
-	float x;
-	float y;
-};
-
-
-
 struct Rectf
 {
+public:
 	Rectf();
-	explicit Rectf(const Point2f& point, float width, float height);
 	explicit Rectf(float left, float bottom, float width, float height);
 
 	float left;

@@ -48,7 +48,7 @@ void cycle::Minigin::Initialize()
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		640,
-		720,
+		680,
 		SDL_WINDOW_OPENGL
 	);
 	if (m_Window == nullptr) 

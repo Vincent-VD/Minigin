@@ -1,9 +1,11 @@
 #pragma once
-#include "CollisionComponent.h"
-#include "RootComponent.h"
+#include ""
+
+#include "Root"
 
 namespace cycle
 {
+	class GameObject;
 	class Texture2D;
 }
 

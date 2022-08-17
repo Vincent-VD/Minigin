@@ -1,6 +1,5 @@
 #pragma once
 #include "Singleton.h"
-#include "imgui_plot.h"
 
 
 struct SDL_Window;

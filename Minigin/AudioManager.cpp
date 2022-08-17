@@ -170,7 +170,7 @@ void AudioManager::Update()
 
 	if (m_Head == m_Tail) return;
 
-	std::string path{ "Source/" };
+	std::string path{ "../Data/" };
 	const SoundDesc soundDesc{ m_PendingSounds[m_Head] };
 	switch (soundDesc.id)
 	{

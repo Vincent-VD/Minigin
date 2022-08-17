@@ -1,10 +1,12 @@
 #pragma once
 #include "Singleton.h"
+#include <memory>
 
 namespace cycle
 {
 	class Texture2D;
 	class Font;
+
 	class ResourceManager final : public Singleton<ResourceManager>
 	{
 	public:

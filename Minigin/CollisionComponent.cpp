@@ -5,9 +5,23 @@
 
 using namespace cycle;
 
+Rectf::Rectf()
+	:Rectf{ 0.0f, 0.0f, 0.0f, 0.0f }
+{
+}
+
+Rectf::Rectf(float left, float bottom, float width, float height)
+	: left{ left }
+	, bottom{ bottom }
+	, width{ width }
+	, height{ height }
+{
+}
+
+
 CollisionComponent::CollisionComponent(GameObject* owner, float left, float bottom, float width, float height, bool isDynamic)
 	: RootComponent(owner)
-	, m_Rect{left, bottom, width, height}
+	, m_Rect{ Rectf{left, bottom, width, height} }
 	, m_IsDynamic(isDynamic)
 {
 	

@@ -1,5 +1,14 @@
 #pragma once
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "Game.h"
+
+namespace cycle
+{
+	class GameObject;
+}
 
 class TronGame : public cycle::Game
 {
@@ -13,7 +22,7 @@ public:
 
 	virtual void LoadGame() const override;
 
-	
+	std::vector<std::shared_ptr<cycle::GameObject>> ReadLevelFile(const std::string& filename) const;
 
 };
 

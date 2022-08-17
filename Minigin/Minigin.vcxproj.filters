@@ -156,11 +156,11 @@
     <ClInclude Include="CollisionComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="TextureComponent2D.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -262,6 +262,12 @@
     </ClCompile>
     <ClCompile Include="CollisionComponent.cpp">
       <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureComponent2D.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Singleton</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
