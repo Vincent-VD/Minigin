@@ -2,6 +2,7 @@
 #include <iostream>
 #include <map>
 #include <thread>
+#include <utility>
 
 #include "AudioManager.h"
 #include "Keyboard.h"
@@ -10,6 +11,8 @@
 
 namespace cycle
 {
+	class InputComponent;
+
 	class Command
 	{
 	public:
@@ -19,7 +22,7 @@ namespace cycle
 			held = 1,
 			released = 2
 		};
-		Command(InputType type) : m_InputType{ type } {}
+		Command(InputType type, const InputComponent* input = nullptr) : m_InputType{ type }, m_Input(input) {}
 		virtual ~Command() = default;
 		Command(const Command& other) = delete;
 		Command(Command&& other) noexcept = delete;
@@ -27,13 +30,16 @@ namespace cycle
 		Command& operator=(Command&& other) noexcept = delete;
 
 		InputType m_InputType;
+		
 		virtual void Execute() = 0;
+	protected:
+		const InputComponent* m_Input;
 	};
 
 	class Test final : public Command
 	{
 	public:
-		Test(InputType type) : Command(type) {}
+		Test(InputType type, const InputComponent* input = nullptr) : Command(type, input) {}
 		void Execute() override
 		{
 			AudioManager& audioManager{ AudioManager::GetInstance() };
@@ -46,15 +52,16 @@ namespace cycle
 	public:
 		InputComponent(GameObject* pOwner, int playerId = 0)
 			: RootComponent(pOwner)
-			, m_pController{ new XBoxController{playerId} }
+			, m_pController{ new XBoxController(playerId) }
 			, m_pKeyboard( new Keyboard() )
 		{
 		}
+
 		virtual ~InputComponent() override
 		{
+			m_CommandsMap.clear();
 			delete m_pController;
 			delete m_pKeyboard;
-			m_CommandsMap.clear();
 		}
 
 		InputComponent(const InputComponent& other) = delete;
@@ -79,7 +86,7 @@ namespace cycle
 	private:
 		XBoxController* m_pController;
 		Keyboard* m_pKeyboard;
-		std::map<cycle::XBoxController::ControllerButton, std::unique_ptr<Command>> m_CommandsMap{};
+		std::map<XBoxController::ControllerButton, std::unique_ptr<Command>> m_CommandsMap{};
 	};
 
 }

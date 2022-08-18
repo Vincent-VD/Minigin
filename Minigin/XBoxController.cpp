@@ -72,16 +72,16 @@ public:
 	{
 		const float normLX = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbLX) / 32767);
 		const float normLY = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbLY) / 32767);
-		float leftStickX = (abs(normLX) < m_TriggerDZ ? 0 : normLX);
-		float leftStickY = (abs(normLY) < m_TriggerDZ ? 0 : normLY);
+		float leftStickX = (abs(normLX) < m_TriggerDZ ? 0.f : normLX);
+		float leftStickY = (abs(normLY) < m_TriggerDZ ? 0.f : normLY);
 		return std::pair<float, float>{ leftStickX, leftStickY };
 	}
 	std::pair<float, float> GetRightStickValuesThisFrame() const
 	{
 		const float normRX = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbRX) / 32767);
 		const float normRY = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbRY) / 32767);
-		float rightStickX = (abs(normRX) < m_TriggerDZ ? 0 : normRX);
-		float rightStickY = (abs(normRY) < m_TriggerDZ ? 0 : normRY);
+		float rightStickX = (abs(normRX) < m_TriggerDZ ? 0.f : normRX);
+		float rightStickY = (abs(normRY) < m_TriggerDZ ? 0.f : normRY);
 		return std::pair<float, float>{ rightStickX, rightStickY };
 	}
 

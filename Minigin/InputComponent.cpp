@@ -55,6 +55,47 @@ void InputComponent::AddCommand(int /*key*/, XBoxController::ControllerButton bu
 	m_CommandsMap[button] = std::move(command);
 }
 
+float InputComponent::GetLeftTriggerPressure() const
+{
+	if (m_pController)
+	{
+		return m_pController->GetLeftTriggerPressure();
+	}
+	std::cerr << "No controller connected, use keyboard input instead\n";
+	return -1.f;
+}
+
+float InputComponent::GetRightTriggerPressure() const
+{
+	if (m_pController)
+	{
+		return m_pController->GetRightTriggerPressure();
+	}
+	std::cerr << "No controller connected, use keyboard input instead\n";
+	return -1.f;
+}
+
+std::pair<float, float> InputComponent::GetLeftStickValues() const
+{
+	if (m_pController)
+	{
+		return m_pController->GetLeftStickValues();
+	}
+	std::cerr << "No controller connected, use keyboard input instead\n";
+	return {};
+}
+
+std::pair<float, float> InputComponent::GetRightStickValues() const
+{
+	if (m_pController)
+	{
+		return m_pController->GetRightStickValues();
+	}
+	std::cerr << "No controller connected, use keyboard input instead\n";
+	return {};
+}
+
+
 void InputComponent::Update()
 {
 	ProcessInput();
@@ -64,4 +105,7 @@ void InputComponent::FixedUpdate()
 {
 	
 }
+
+
+
 

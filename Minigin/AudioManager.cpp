@@ -111,11 +111,7 @@ public:
 			{
 				Mix_Volume(m_Channel, static_cast<int>(volume) * MIX_MAX_VOLUME);
 				Mix_PlayChannel(m_Channel, mixChunk, 0);
-				++m_Channel;
-				if(m_Channel > 2)
-				{
-					m_Channel = 2;
-				}
+				m_Channel = 2;
 			}
 			else
 			{
