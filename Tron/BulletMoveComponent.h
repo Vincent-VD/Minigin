@@ -2,13 +2,15 @@
 #include <RootComponent.h>
 
 #include "InputComponent.h"
+#include "MovementComponent.h"
+#include "TurretComponent.h"
 
-std::shared_ptr<cycle::GameObject*> CreateBullet(float x, float y);
+void CreateBullet(float posX, float posY, float dirX, float dirY);
 
 class BulletMoveComponent : public cycle::RootComponent
 {
 public:
-	BulletMoveComponent(cycle::GameObject* owner);
+	BulletMoveComponent(cycle::GameObject* owner, float dirX, float dirY);
 	virtual ~BulletMoveComponent() override = default;
 	BulletMoveComponent(const BulletMoveComponent& other) = delete;
 	BulletMoveComponent(BulletMoveComponent&& other) noexcept = delete;
@@ -17,6 +19,17 @@ public:
 
 	virtual void Update() override;
 	virtual void FixedUpdate() override {}
+
+	vec2 GetDir() const { return m_Dir; }
+
+	void UpdateDir(const vec2& dir);
+
+private:
+	vec2 m_Dir;
+
+	const float m_MoveSpeed;
+
+	int m_Lives{ 5 };
 };
 
 class FireBullet : public cycle::Command
@@ -26,9 +39,6 @@ public:
 		: Command(type, input)
 	{
 	}
-	virtual void Execute() override
-	{
-		std::cout << "PLACEHOLDER BULLET CODE\n";
-		CreateBullet(0, 0);
-	}
+	virtual void Execute() override;
+	
 };

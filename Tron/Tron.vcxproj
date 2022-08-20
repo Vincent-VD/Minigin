@@ -143,17 +143,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BulletCollisionComponent.cpp" />
     <ClCompile Include="BulletMoveComponent.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="PlayerCollisionComponent.cpp" />
     <ClCompile Include="Tron.cpp" />
     <ClCompile Include="TronGame.cpp" />
+    <ClCompile Include="TurretComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BulletCollisionComponent.h" />
     <ClInclude Include="BulletMoveComponent.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="PlayerCollisionComponent.h" />
     <ClInclude Include="TronGame.h" />
+    <ClInclude Include="TurretComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

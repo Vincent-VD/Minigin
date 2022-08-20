@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <string>
+#include <glm/detail/type_vec.hpp>
 
 #include "BaseCollisionComponent.h"
 #include "RootComponent.h"
@@ -23,10 +24,13 @@ namespace cycle
 		virtual void FixedUpdate() override {}
 		void Render() const override;
 
+		std::pair<float, float> GetTextureDimensions() const;
+
 	private:
 		std::shared_ptr<Texture2D> m_pTexture;
 		Rectf m_Rect;
 		const bool m_IsDynamic;
+
 	};
 }
 

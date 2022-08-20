@@ -19,6 +19,8 @@ namespace cycle
 		virtual void FixedUpdate() = 0;
 		virtual void Render() const {}
 
+		const GameObject* GetOwner() const { return m_pGameObject; }
+
 	protected:
 		GameObject* m_pGameObject;
 

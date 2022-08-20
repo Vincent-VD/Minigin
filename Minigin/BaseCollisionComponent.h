@@ -57,6 +57,8 @@ namespace cycle
 		void Render() const override;
 		virtual void OnCollision() = 0;
 
+		std::pair<float, float> GetCollisionBoxWidthAndHeight() { return {m_Rect.width, m_Rect.height}; }
+
 		static bool CheckForCollision(const Rectf& actorShape, const std::string& tag);
 
 		bool HasCollided() const { return m_CollisionDetail.m_CollisionThisFrame; }
@@ -66,9 +68,10 @@ namespace cycle
 		struct CollisionDetail
 		{
 			CollisionDetail() = default;
-			CollisionDetail(const std::string& tag) : m_Tag(tag) {}
+			CollisionDetail(const std::string& tag, const Rectf& otherRect) : m_Tag(tag), m_OtherRect(otherRect) {}
 
 			std::string m_Tag{};
+			Rectf m_OtherRect{};
 			bool m_CollisionThisFrame{ false };
 
 		};

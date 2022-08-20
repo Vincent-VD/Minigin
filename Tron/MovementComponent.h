@@ -29,6 +29,8 @@ public:
 	virtual void FixedUpdate() override {}
 	virtual void Render() const override;
 
+	vec2 GetDir() const { return m_Dir; }
+
 	void UpdateDir(const vec2& dir);
 
 private:
@@ -61,7 +63,7 @@ public:
 
 	virtual void Execute() override
 	{
-		std::cout << "up\n";
+		//std::cout << "up\n";
 		m_Movement->UpdateDir(vec2{ 0, -1 });
 	}
 };
@@ -76,7 +78,7 @@ public:
 
 	virtual void Execute() override
 	{
-		std::cout << "left\n";
+		//std::cout << "left\n";
 		m_Movement->UpdateDir(vec2{ -1, 0 });
 	}
 };
@@ -91,7 +93,7 @@ public:
 
 	virtual void Execute() override
 	{
-		std::cout << "down\n";
+		//std::cout << "down\n";
 		m_Movement->UpdateDir(vec2{ 0, 1 });
 	}
 };
@@ -106,7 +108,7 @@ public:
 
 	virtual void Execute() override
 	{
-		std::cout << "right\n";
+		//std::cout << "right\n";
 		m_Movement->UpdateDir(vec2{ 1, 0 });
 	}
 };
@@ -121,7 +123,7 @@ public:
 
 	virtual void Execute() override
 	{
-		std::cout << "stick\n";
+		//std::cout << "stick\n";
 		const auto stick{ m_Input->GetLeftStickValues() };
 		if(abs(stick.first) > abs(stick.second))
 		{

@@ -1,4 +1,6 @@
 #include "TronGame.h"
+
+#include "BulletMoveComponent.h"
 #include "FPSComponent.h"
 #include "InputComponent.h"
 #include "ResourceManager.h"
@@ -90,6 +92,8 @@ std::shared_ptr<cycle::GameObject> CreatePlayer(float x, float y)
 	PlayerCollisionComponent* collisionComp{ new PlayerCollisionComponent{go.get(), "player", x, y, 28, 28, true}};
 
 	MovementComponent* movementComp{ new MovementComponent(go.get())};
+	TurretComponent* turretComponent{ new TurretComponent{go.get()} };
+
 	auto inputComponent = new cycle::InputComponent (go.get());
 
 	inputComponent->AddCommand('W', cycle::XBoxController::ControllerButton::DPadUp, std::make_unique<MoveUp>(cycle::Command::InputType::held, inputComponent, movementComp));
@@ -97,11 +101,12 @@ std::shared_ptr<cycle::GameObject> CreatePlayer(float x, float y)
 	inputComponent->AddCommand('S', cycle::XBoxController::ControllerButton::DPadDown, std::make_unique<MoveDown>(cycle::Command::InputType::held, inputComponent, movementComp));
 	inputComponent->AddCommand('D', cycle::XBoxController::ControllerButton::DPadRight, std::make_unique<MoveRight>(cycle::Command::InputType::held, inputComponent, movementComp));
 	inputComponent->AddCommand('\0', cycle::XBoxController::ControllerButton::LeftStick, std::make_unique<MoveStick>(cycle::Command::InputType::held, inputComponent, movementComp));
-	inputComponent->AddCommand('\0', cycle::XBoxController::ControllerButton::RightShoulder, std::make_unique<cycle::Test>(cycle::Command::InputType::pressed));
+	inputComponent->AddCommand('R', cycle::XBoxController::ControllerButton::RightShoulder, std::make_unique<FireBullet>(cycle::Command::InputType::pressed, inputComponent));
 
 	go->GetTransform()->SetPosition(x, y, 0.f);
 	go->AddComponent(textureComp);
 	go->AddComponent(collisionComp);
+	go->AddComponent(turretComponent);
 	go->AddComponent(inputComponent);
 	go->AddComponent(movementComp);
 

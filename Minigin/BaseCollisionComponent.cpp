@@ -44,7 +44,7 @@ BaseCollisionComponent::BaseCollisionComponent(GameObject* owner, const std::str
 	, m_Rect{ Rectf{left, bottom, width, height} }
 	, m_IsDynamic(isDynamic)
 	, m_Tag(tag)
-	, m_CollisionDetail("")
+	, m_CollisionDetail("", Rectf{})
 {
 	CollisionManager::GetInstance().AddCollision(this);
 }
@@ -64,11 +64,12 @@ void BaseCollisionComponent::Update()
 
 	for (const BaseCollisionComponent* component : components)
 	{
-		if (component->HandleCollision(m_Rect, component->m_Rect, m_Tag))
+		if (component->HandleCollision(m_Rect, component->m_Rect, component->m_Tag))
 		{
 			//std::cout << "FHJSDLF\n";
 			detail.m_Tag = component->m_Tag;
 			detail.m_CollisionThisFrame = true;
+			detail.m_OtherRect = component->m_Rect;
 			m_CollisionDetail = detail;
 			OnCollision();
 		}

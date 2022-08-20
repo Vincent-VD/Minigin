@@ -8,6 +8,7 @@ namespace cycle
 	{
 	public:
 		Scene& CreateScene(const std::string& name);
+		Scene& GetCurrentScene() { return *m_CurrentScene; }
 
 		void Update();
 		void FixedUpdate();
@@ -15,6 +16,7 @@ namespace cycle
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
+		std::shared_ptr<Scene> m_CurrentScene;
 		std::vector<std::shared_ptr<Scene>> m_Scenes;
 	};
 }

@@ -55,7 +55,7 @@ public:
 		{
 			res = m_CurrentState.Gamepad.bLeftTrigger;
 		}
-		return static_cast<float>(m_CurrentState.Gamepad.bLeftTrigger);
+		return res;
 	}
 	float GetRightTriggerPressureThisFrame() const
 	{
@@ -74,7 +74,7 @@ public:
 		const float normLY = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbLY) / 32767);
 		float leftStickX = (abs(normLX) < m_TriggerDZ ? 0.f : normLX);
 		float leftStickY = (abs(normLY) < m_TriggerDZ ? 0.f : normLY);
-		return std::pair<float, float>{ leftStickX, leftStickY };
+		return { leftStickX, leftStickY };
 	}
 	std::pair<float, float> GetRightStickValuesThisFrame() const
 	{
@@ -82,7 +82,7 @@ public:
 		const float normRY = fmaxf(-1, static_cast<float>(m_CurrentState.Gamepad.sThumbRY) / 32767);
 		float rightStickX = (abs(normRX) < m_TriggerDZ ? 0.f : normRX);
 		float rightStickY = (abs(normRY) < m_TriggerDZ ? 0.f : normRY);
-		return std::pair<float, float>{ rightStickX, rightStickY };
+		return { rightStickX, rightStickY };
 	}
 
 private:
