@@ -17,9 +17,16 @@
 #include <chrono>
 
 #include "AudioManager.h"
+#include "BaseCollisionComponent.h"
 #include "Game.h"
 
 using namespace std;
+
+//cycle::GameWindow::GameWindow(float width, float height)
+//	: m_WindowWidth(width)
+//	, m_WindowHeight(height)
+//{
+//}
 
 void PrintSDLVersion()
 {
@@ -44,13 +51,14 @@ void cycle::Minigin::Initialize()
 	}
 
 	m_Window = SDL_CreateWindow(
-		"Programming 4 assignment",
+		"TRON - Vincent Van Denberghe (2GD07E - 202055275)",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		680,
+		static_cast<int>(g_WindowsInfo.m_Width),
+		static_cast<int>(g_WindowsInfo.m_Height),
 		SDL_WINDOW_OPENGL
 	);
+
 	if (m_Window == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
@@ -58,6 +66,14 @@ void cycle::Minigin::Initialize()
 
 	Renderer::GetInstance().Init(m_Window);
 }
+
+//std::pair<int, int> cycle::Minigin::GetWindowSize()
+//{
+//	int w{}, h{};
+//	SDL_GetWindowSize(m_Window, &w, &h);
+//	return { w, h };
+//}
+
 
 /**
  * Code constructing the scene world starts here
@@ -76,7 +92,7 @@ void cycle::Minigin::LoadGame() const
 
 	auto input = new InputComponent(go.get());
 
-	input->AddCommand('A', cycle::XBoxController::ControllerButton::ButtonA, std::make_unique<Test>(cycle::Command::InputType::pressed));
+	//input->AddCommand('A', cycle::XBoxController::ControllerButton::ButtonA, std::make_unique<Test>(cycle::Command::InputType::pressed));
 
 	go->AddComponent(input);
 
@@ -113,6 +129,7 @@ void cycle::Minigin::Run()
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 	cycle::Timer::GetInstance().Init(MsPerFrame);
+	cycle::CollisionManager::GetInstance().Init();
 	AudioManager& audioManager{ AudioManager::GetInstance() };
 	audioManager.Init();
 	//std::cout << "Main thread ID: " << std::this_thread::get_id() << std::endl;
@@ -124,7 +141,7 @@ void cycle::Minigin::Run()
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& timer = Timer::GetInstance();
 
-		audioManager.PlayAudio(SoundDesc{ SoundId::theme, 1.f });
+		//audioManager.PlayAudio(SoundDesc{ SoundId::theme, 1.f });
 		
 
 		// todo: this update loop could use some work.

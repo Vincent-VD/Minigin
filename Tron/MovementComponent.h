@@ -18,15 +18,16 @@ struct vec2
 class MovementComponent final : public cycle::RootComponent
 {
 public:
-	MovementComponent(cycle::GameObject* owner, float moveSpeed = 2.f);
+	MovementComponent(cycle::GameObject* owner, float moveSpeed = 1.f);
 	virtual ~MovementComponent() override = default;
 	MovementComponent(const MovementComponent& other) = delete;
 	MovementComponent(MovementComponent&& other) noexcept = delete;
 	MovementComponent& operator=(const MovementComponent& other) = delete;
 	MovementComponent& operator=(MovementComponent&& other) noexcept = delete;
 
-	void Update() override;
-	void FixedUpdate() override {}
+	virtual void Update() override;
+	virtual void FixedUpdate() override {}
+	virtual void Render() const override;
 
 	void UpdateDir(const vec2& dir);
 
@@ -56,9 +57,9 @@ public:
 	MoveUp(InputType type, const cycle::InputComponent* input, MovementComponent* movement)
 		: Move(type, input, movement)
 	{
-		
 	}
-	void Execute() override
+
+	virtual void Execute() override
 	{
 		std::cout << "up\n";
 		m_Movement->UpdateDir(vec2{ 0, -1 });
@@ -72,7 +73,8 @@ public:
 		: Move(type, input, movement)
 	{
 	}
-	void Execute() override
+
+	virtual void Execute() override
 	{
 		std::cout << "left\n";
 		m_Movement->UpdateDir(vec2{ -1, 0 });
@@ -86,7 +88,8 @@ public:
 		: Move(type, input, movement)
 	{
 	}
-	void Execute() override
+
+	virtual void Execute() override
 	{
 		std::cout << "down\n";
 		m_Movement->UpdateDir(vec2{ 0, 1 });
@@ -100,7 +103,8 @@ public:
 		: Move(type, input, movement)
 	{
 	}
-	void Execute() override
+
+	virtual void Execute() override
 	{
 		std::cout << "right\n";
 		m_Movement->UpdateDir(vec2{ 1, 0 });
@@ -114,7 +118,8 @@ public:
 		: Move(type, input, movement)
 	{
 	}
-	void Execute() override
+
+	virtual void Execute() override
 	{
 		std::cout << "stick\n";
 		const auto stick{ m_Input->GetLeftStickValues() };

@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 
-#include "CollisionComponent.h"
+#include "BaseCollisionComponent.h"
 #include "RootComponent.h"
 
 namespace cycle

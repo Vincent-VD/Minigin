@@ -143,12 +143,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BulletMoveComponent.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
+    <ClCompile Include="PlayerCollisionComponent.cpp" />
     <ClCompile Include="Tron.cpp" />
     <ClCompile Include="TronGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BulletMoveComponent.h" />
     <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="PlayerCollisionComponent.h" />
     <ClInclude Include="TronGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -209,7 +209,7 @@
     <ClInclude Include="..\3rdParty\imgui-1.87\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui-1.87\imstb_truetype.h" />
     <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="CollisionComponent.h" />
+    <ClInclude Include="BaseCollisionComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Font.h" />
@@ -312,7 +312,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Courses\Minigin_2022\Minigin\3rdParty\imgui-1.87;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="AudioManager.cpp" />
-    <ClCompile Include="CollisionComponent.cpp" />
+    <ClCompile Include="BaseCollisionComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="Font.cpp" />

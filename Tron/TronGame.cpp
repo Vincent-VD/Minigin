@@ -7,7 +7,9 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "fstream"
+#include "Minigin.h"
 #include "MovementComponent.h"
+#include "PlayerCollisionComponent.h"
 #include "TextureComponent2D.h"
 
 std::shared_ptr<cycle::GameObject> CreateTile(float x, float y);
@@ -33,7 +35,7 @@ void TronGame::LoadGame() const
 		scene.Add(gameObject);
 	}
 
-	scene.Add(CreatePlayer(50, 50));
+	scene.Add(CreatePlayer(33, 150));
 
 	scene.Add(go);
 }
@@ -47,7 +49,7 @@ std::vector<std::shared_ptr<cycle::GameObject>> TronGame::ReadLevelFile(const st
 		std::cerr << "Cannot open " << filename << std::endl;
 	}
 
-	float y{ 680.f - 19 * 32.f}; //window height - # rows * texture size
+	float y{ cycle::g_WindowsInfo.m_Height - 19 * 32.f}; //window height - # rows * texture size
 	std::string line;
 	while (std::getline(obj, line))
 	{
@@ -72,7 +74,7 @@ std::shared_ptr<cycle::GameObject> CreateTile(float x, float y)
 {
 	std::shared_ptr<cycle::GameObject> go = std::make_shared<cycle::GameObject>();
 	cycle::TextureComponent2D* textureComp{ new cycle::TextureComponent2D{go.get(), "Tile.png", x, y, 32, 32, false}};
-	cycle::CollisionComponent* collisionComp{ new cycle::CollisionComponent{go.get(), x, y, 32, 32, false}};
+	PlayerCollisionComponent* collisionComp{ new PlayerCollisionComponent{go.get(), "tile", x, y, 32, 32, false}};
 
 	go->GetTransform()->SetPosition(x, y, 0.f);
 	go->AddComponent(textureComp);
@@ -85,7 +87,7 @@ std::shared_ptr<cycle::GameObject> CreatePlayer(float x, float y)
 {
 	std::shared_ptr<cycle::GameObject> go = std::make_shared<cycle::GameObject>();
 	cycle::TextureComponent2D* textureComp{ new cycle::TextureComponent2D{go.get(), "Tank_1.png", x, y, 32, 32, true} };
-	cycle::CollisionComponent* collisionComp{ new cycle::CollisionComponent{go.get(), x, y, 32, 32, true} };
+	PlayerCollisionComponent* collisionComp{ new PlayerCollisionComponent{go.get(), "player", x, y, 28, 28, true}};
 
 	MovementComponent* movementComp{ new MovementComponent(go.get())};
 	auto inputComponent = new cycle::InputComponent (go.get());
@@ -95,7 +97,7 @@ std::shared_ptr<cycle::GameObject> CreatePlayer(float x, float y)
 	inputComponent->AddCommand('S', cycle::XBoxController::ControllerButton::DPadDown, std::make_unique<MoveDown>(cycle::Command::InputType::held, inputComponent, movementComp));
 	inputComponent->AddCommand('D', cycle::XBoxController::ControllerButton::DPadRight, std::make_unique<MoveRight>(cycle::Command::InputType::held, inputComponent, movementComp));
 	inputComponent->AddCommand('\0', cycle::XBoxController::ControllerButton::LeftStick, std::make_unique<MoveStick>(cycle::Command::InputType::held, inputComponent, movementComp));
-	inputComponent->AddCommand('\0', cycle::XBoxController::ControllerButton::ButtonA, std::make_unique<cycle::Test>(cycle::Command::InputType::pressed));
+	inputComponent->AddCommand('\0', cycle::XBoxController::ControllerButton::RightShoulder, std::make_unique<cycle::Test>(cycle::Command::InputType::pressed));
 
 	go->GetTransform()->SetPosition(x, y, 0.f);
 	go->AddComponent(textureComp);
