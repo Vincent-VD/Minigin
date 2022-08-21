@@ -8,7 +8,6 @@ void TransformComponent::SetPosition(glm::vec3 newPos)
 	SetPosition(newPos.x, newPos.y, newPos.z);
 }
 
-
 void TransformComponent::SetPosition(const float x, const float y, const float z)
 {
 	m_Position.x = x;

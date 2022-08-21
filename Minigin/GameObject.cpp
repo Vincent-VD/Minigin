@@ -65,9 +65,9 @@ void cycle::GameObject::SetParent(GameObject* parent)
 	parent->AddChild(this);
 	/*m_pTransform->SetPosition(m_pTransform->GetPosition() - parent->GetTransform()->GetPosition());
 	m_pTransform->SetRotation(m_pTransform->GetRotation() - parent->GetTransform()->GetRotation());
-	m_pTransform->SetScale(m_pTransform->GetScale() / parent->GetTransform()->GetScale());
+	m_pTransform->SetScale(m_pTransform->GetScale() / parent->GetTransform()->GetScale());*/
 
-	parent->AddChild(this);*/
+	/*parent->AddChild(this); */
 }
 
 cycle::GameObject* cycle::GameObject::GetParent() const

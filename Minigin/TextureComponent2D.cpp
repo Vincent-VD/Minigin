@@ -38,7 +38,7 @@ namespace cycle
 	{
 		int width{}, height{};
 		SDL_QueryTexture(m_pTexture->GetSDLTexture(), nullptr, nullptr, &width, &height);
-		return { width, height };
+		return { static_cast<float>(width), static_cast<float>(height) };
 	}
 
 

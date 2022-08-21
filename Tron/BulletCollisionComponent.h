@@ -1,5 +1,8 @@
 #pragma once
 #include <BaseCollisionComponent.h>
+
+#include "MovementComponent.h"
+
 class BulletCollisionComponent : public cycle::BaseCollisionComponent
 {
 public:
@@ -11,5 +14,7 @@ public:
 	BulletCollisionComponent& operator=(BulletCollisionComponent&& other) noexcept = delete;
 
 	virtual void OnCollision() override;
+
+	vec2 CalculateTileNormal(const vec2& bulletDir) const;
 };
 

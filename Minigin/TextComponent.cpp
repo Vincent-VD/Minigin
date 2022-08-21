@@ -10,7 +10,9 @@ using namespace cycle;
 TextComponent::TextComponent(GameObject* pOwner, const std::string& text, const std::shared_ptr<Font>& font)
 	: RootComponent(pOwner)
 	, m_NeedsUpdate(true), m_Text(text), m_Font(font), m_TextTexture(nullptr)
-{ }
+{
+	
+}
 
 void TextComponent::Update()
 {
@@ -43,7 +45,7 @@ void TextComponent::Render() const
 {
 	if (m_TextTexture != nullptr)
 	{
-		const auto& pos = m_Transform.GetPosition();
+		const auto& pos = m_pGameObject->GetTransform()->GetPosition();
 		Renderer::GetInstance().RenderTexture(*m_TextTexture, pos.x, pos.y);
 	}
 }
@@ -55,9 +57,9 @@ void TextComponent::SetText(const std::string& text)
 	m_NeedsUpdate = true;
 }
 
-void TextComponent::SetPosition(const float x, const float y)
-{
-	m_Transform.SetPosition(x, y, 0.0f);
-}
+//void TextComponent::SetPosition(const float x, const float y)
+//{
+//	//m_Transform.SetPosition(x, y, 0.0f);
+//}
 
 

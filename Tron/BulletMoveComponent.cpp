@@ -18,9 +18,9 @@ void BulletMoveComponent::Update()
 	glm::vec3 pos{ m_pGameObject->GetTransform()->GetPosition() };
 	pos.x += m_Dir.x;
 	pos.y += m_Dir.y;
-	pos.x = std::max(0.f, pos.x);
+	//pos.x = std::max(0.f, pos.x);
 	//pos.x = std::min(cycle::g_WindowsInfo.m_Width, pos.x);
-	pos.y = std::max(0.f, pos.y);
+	//pos.y = std::max(0.f, pos.y);
 	//pos.y = std::max(cycle::g_WindowsInfo.m_Width, pos.y);
 	m_pGameObject->GetTransform()->SetPosition(pos.x, pos.y, 0.f);
 	//m_Dir = vec2{};
@@ -28,9 +28,14 @@ void BulletMoveComponent::Update()
 
 void BulletMoveComponent::UpdateDir(const vec2& dir)
 {
-	m_Dir.x = dir.x * m_MoveSpeed;
-	m_Dir.y = dir.y * m_MoveSpeed;
+	std::cout << "Updating bullet Dir: " << dir.x << " " << dir.y << std::endl;
+	m_Dir.x = std::min(m_MoveSpeed, dir.x);
+	m_Dir.y = std::min(m_MoveSpeed, dir.y);
 	--m_Lives;
+	if(m_Lives < 0)
+	{
+		m_pGameObject->m_MarkForDeletion();
+	}
 }
 
 void CreateBullet(float posX, float posY, float dirX, float dirY)
@@ -39,7 +44,7 @@ void CreateBullet(float posX, float posY, float dirX, float dirY)
 
 	cycle::TextureComponent2D* textureComp{ new cycle::TextureComponent2D{go.get(), "bullet.png", posX, posY, 16.f, 16.f, true}};
 	BulletMoveComponent* moveComponent{ new BulletMoveComponent{go.get(), dirX, dirY}};
-	BulletCollisionComponent* collisionComponent{ new BulletCollisionComponent{go.get(), "bullet", posX, posY, 16.f, 16.f} }; 
+	BulletCollisionComponent* collisionComponent{ new BulletCollisionComponent{go.get(), "bullet", posX, posY, 16.f, 16.f} };
 
 	go->GetTransform()->SetPosition(posX, posY, 0.f);
 	go->AddComponent(textureComp);
@@ -53,7 +58,7 @@ void CreateBullet(float posX, float posY, float dirX, float dirY)
 
 void FireBullet::Execute()
 {
-	std::cout << "PLACEHOLDER BULLET CODE\n";
+	//std::cout << "PLACEHOLDER BULLET CODE\n";
 
 	const auto barrelInfo{ m_Input->GetOwner()->GetComponent<TurretComponent>()->GetBarrelDir() };
 
