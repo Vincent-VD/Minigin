@@ -45,7 +45,7 @@ namespace cycle
 	class BaseCollisionComponent : public cycle::RootComponent
 	{
 	public:
-		BaseCollisionComponent(GameObject* owner, const std::string& tag, float left, float bottom, float width, float height, bool isDynamic);
+		BaseCollisionComponent(GameObject* owner, float left, float bottom, float width, float height, bool isDynamic);
 		virtual ~BaseCollisionComponent() override = default;
 		BaseCollisionComponent(const BaseCollisionComponent& other) = delete;
 		BaseCollisionComponent(BaseCollisionComponent&& other) noexcept = delete;
@@ -55,13 +55,13 @@ namespace cycle
 		virtual void Update() override;
 		virtual void FixedUpdate() override {}
 		void Render() const override;
-		virtual void OnCollision() = 0;
+		virtual void OnCollision(BaseCollisionComponent* other) = 0;
 
 		std::pair<float, float> GetCollisionBoxWidthAndHeight() { return {m_Rect.width, m_Rect.height}; }
 
-		static bool CheckForCollision(const Rectf& actorShape, const std::string& tag);
+		bool CheckForCollision(const Rectf& actorShape, const std::string& tag);
 
-		bool HasCollided() const { return m_CollisionDetail.m_CollisionThisFrame; }
+		//bool HasCollided() const { return m_CollisionDetail.m_CollisionThisFrame; }
 
 	protected:
 
@@ -76,10 +76,10 @@ namespace cycle
 
 		};
 
+		const std::string m_Tag;
+
 		Rectf m_Rect;
 		const bool m_IsDynamic;
-
-		std::string m_Tag;
 
 		CollisionDetail m_CollisionDetail; //tag of object component collided with this frame
 

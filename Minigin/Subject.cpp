@@ -4,10 +4,18 @@
 
 cycle::Subject::Subject(GameObject* owner)
 	: RootComponent(owner)
-	, m_pFirstObserver(new Node<Observer>(nullptr, nullptr))
+	//, m_pFirstObserver(new Node<Observer>(nullptr, nullptr))
 	, m_PendingEvents(std::vector<cycle::Event>(MAX_PENDING))
 {
 	
+}
+
+cycle::Subject::~Subject()
+{
+	for (Observer* observer : m_pObservers)
+	{
+		delete observer;
+	}
 }
 
 void cycle::Subject::Notify(const Event& message)
@@ -18,30 +26,41 @@ void cycle::Subject::Notify(const Event& message)
 
 void cycle::Subject::Update()
 {
-	Node<Observer>* currNode(m_pFirstObserver);
+	/*Node<Observer>* currNode(m_pFirstObserver);
 	while (currNode != nullptr)
 	{
 		for(int iter = m_Head; iter < m_Tail; ++iter)
 		{
-			Event message{ m_PendingEvents[iter]};
+			Event& message{ m_PendingEvents[iter]};
 			currNode->pData->OnNotify(message);
 			m_Head = (m_Head + 1) % MAX_PENDING;
 		}
 		currNode = currNode->pNext;
+	}*/
+	for (Observer* observer : m_pObservers)
+	{
+		for (int iter = m_Head; iter < m_Tail; ++iter)
+		{
+			Event& message{ m_PendingEvents[iter] };
+			observer->OnNotify(message);
+			m_Head = (m_Head + 1) % MAX_PENDING;
+		}
 	}
 }
 
 
 void cycle::Subject::AddObserver(Observer* observer)
 {
-	Node<Observer>* newNode{ new Node<Observer>{observer, m_pFirstObserver} };
+	/*Node<Observer>* newNode{ new Node<Observer>{observer, m_pFirstObserver} };
 	m_pFirstObserver = newNode;
+	++m_AmountObservers;*/
+	m_pObservers.push_back(observer);
 	++m_AmountObservers;
 }
 
-void cycle::Subject::RemoveObserver(const Observer* observer)
+void cycle::Subject::RemoveObserver(const Observer* /*observer*/)
 {
-	Node<Observer>* currNode{ m_pFirstObserver };
+	/*Node<Observer>* currNode{ m_pFirstObserver };
 	Node<Observer>* prevNode{ nullptr };
 	while(currNode != nullptr)
 	{
@@ -61,7 +80,7 @@ void cycle::Subject::RemoveObserver(const Observer* observer)
 		}
 		prevNode = currNode;
 		currNode = currNode->pNext;
-	}
+	}*/
 }
 
 //void cycle::Subject::Clear()

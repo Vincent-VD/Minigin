@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <vector>
 #include "TransformComponent.h"
 #include "SceneObject.h"
@@ -11,7 +12,7 @@ namespace cycle
 	class GameObject final : public SceneObject
 	{
 	public:
-		GameObject(const std::vector<RootComponent*>& pComponents = {});
+		GameObject(const std::string& tag, const std::vector<RootComponent*>& pComponents = {});
 		virtual ~GameObject() override;
 		void m_MarkForDeletion();
 		GameObject(const GameObject& other) = delete;
@@ -25,6 +26,7 @@ namespace cycle
 
 		//Getters
 		TransformComponent* GetTransform() const;
+		std::string GetTag() const { return m_Tag; }
 
 		//Setters
 		//void SetTexture(const std::string& filename);
@@ -49,7 +51,8 @@ namespace cycle
 		std::vector<RootComponent*> m_pComponents;
 		std::vector<GameObject*> m_pChildren;
 		GameObject* m_pParent;
-		bool m_MarkedForDeletion{ false };
+		
+		const std::string m_Tag;
 
 		void RemoveChild(GameObject* obj);
 		void AddChild(GameObject* obj);

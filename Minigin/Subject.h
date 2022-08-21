@@ -11,21 +11,22 @@ namespace cycle
 	{
 	public:
 		Subject(GameObject* owner);
-		~Subject() override = default;
+		~Subject() override;
 		Subject(const Subject& other) = delete;
 		Subject(Subject&& other) noexcept = delete;
 		Subject& operator=(const Subject& other) = delete;
 		Subject& operator=(Subject&& other) noexcept = delete;
 
 		void Notify(const Event& message);
-		void Update() override;
+		virtual void Update() override;
+		virtual void FixedUpdate() override {};
 
 		void AddObserver(Observer* observer);
 		void RemoveObserver(const Observer* observer);
 
 	private:
 
-		template <typename Type>
+		/*template <typename Type>
 		struct Node
 		{
 			Node(Type* value, Node* pNext = nullptr);
@@ -34,7 +35,8 @@ namespace cycle
 			Type* pData;
 		};
 
-		Node<Observer>* m_pFirstObserver{ new Node<Observer>{nullptr, nullptr} };
+		Node<Observer>* m_pFirstObserver{ new Node<Observer>{nullptr, nullptr} };*/
+		std::vector<Observer*> m_pObservers{};
 		int m_AmountObservers{};
 
 		static const int MAX_PENDING{ 16 };
@@ -44,12 +46,12 @@ namespace cycle
 
 	};
 
-	template <typename Type>
+	/*template <typename Type>
 	Subject::Node<Type>::Node(Type* value, Node<Type>* pNext)
 		: pNext(pNext)
 		, pData(value)
 	{
-	}
+	}*/
 
 }
 

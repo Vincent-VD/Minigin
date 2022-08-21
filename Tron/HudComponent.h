@@ -18,6 +18,8 @@ public:
 	void UpdateScore(const int playerId, const int score) const;
 	void ResetScore(const int playerId) const;
 
+	int GetLiveScore(int playerId) const;
+
 private:
 	ScoreComponent* m_ScoreComponent1;
 	ScoreComponent* m_ScoreComponent2;

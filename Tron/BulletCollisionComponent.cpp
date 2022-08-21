@@ -2,47 +2,36 @@
 
 #include "BulletMoveComponent.h"
 
-BulletCollisionComponent::BulletCollisionComponent(cycle::GameObject* owner, const std::string& tag, float left, float bottom, float width, float height, bool isDynamic)
-	: BaseCollisionComponent(owner, tag, left, bottom, width, height, isDynamic)
+BulletCollisionComponent::BulletCollisionComponent(cycle::GameObject* owner, const std::string& spawner, float left, float bottom, float width, float height, bool isDynamic)
+	: BaseCollisionComponent(owner, left, bottom, width, height, isDynamic)
+	, m_Spawner(spawner)
 {
 }
 
-void BulletCollisionComponent::OnCollision()
+void BulletCollisionComponent::OnCollision(BaseCollisionComponent* other)
 {
-	if(m_CollisionDetail.m_Tag == "tile")
+	if(other->GetOwner()->GetTag() == "tile")
 	{
 		//Calculate reflection
 		
-		const vec2 bulletDir{ m_pGameObject->GetComponent<BulletMoveComponent>()->GetDir() };
+		const Fvec2 bulletDir{ m_pGameObject->GetComponent<BulletMoveComponent>()->GetDir() };
 		
-		const vec2 edgeNormal{ CalculateTileNormal(bulletDir) };
+		const Fvec2 edgeNormal{ CalculateTileNormal(bulletDir) };
 
 		//Reflect
-		vec2 reflect;
 		const float dot{ bulletDir.x * edgeNormal.x + bulletDir.y * bulletDir.y };
-		if(dot < 0.75f)
-		{
-			reflect.x = bulletDir.x - 2 * dot * edgeNormal.x;
-			reflect.y = bulletDir.y - 2 * dot * edgeNormal.y;
-			m_pGameObject->GetComponent<BulletMoveComponent>()->UpdateDir(reflect);
-		}
-		else
-		{
-			m_pGameObject->m_MarkForDeletion();
-		}
+		Fvec2 reflect;
+		reflect.x = bulletDir.x - 2 * dot * edgeNormal.x;
+		reflect.y = bulletDir.y - 2 * dot * edgeNormal.y;
+		m_pGameObject->GetComponent<BulletMoveComponent>()->UpdateDir(reflect);
 
 
 		//std::cout << "COLLISION with tile\n";
 
 	}
-
-	if(m_CollisionDetail.m_Tag == "Player")
-	{
-		//std::cout << "COLLISION with player\n";
-	}
 }
 
-vec2 BulletCollisionComponent::CalculateTileNormal(const vec2& bulletDir) const
+Fvec2 BulletCollisionComponent::CalculateTileNormal(const Fvec2& bulletDir) const
 {
 	if (bulletDir.x < m_CollisionDetail.m_OtherRect.left) //Left
 	{

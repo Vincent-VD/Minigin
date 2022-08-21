@@ -16,11 +16,11 @@ public:
 	virtual void Update() override;
 	virtual void FixedUpdate() override {}
 
-	std::pair<vec2, vec2> GetBarrelDir() const;
+	std::pair<Fvec2, Fvec2> GetBarrelDir() const;
 
 private:
-	vec2 m_BarrelPos{};
-	vec2 m_BarrelDir{};
+	Fvec2 m_BarrelPos{};
+	Fvec2 m_BarrelDir{};
 
 	const float m_BarrelLength{ 10.f };
 

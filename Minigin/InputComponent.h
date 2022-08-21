@@ -50,7 +50,7 @@ namespace cycle
 	class InputComponent final : public RootComponent
 	{
 	public:
-		InputComponent(GameObject* pOwner, int playerId = 0)
+		InputComponent(GameObject* pOwner, int playerId)
 			: RootComponent(pOwner)
 			, m_pController{ new XBoxController(playerId) }
 			, m_pKeyboard( new Keyboard() )

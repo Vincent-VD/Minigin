@@ -5,7 +5,7 @@
 #include "MovementComponent.h"
 #include "TurretComponent.h"
 
-void CreateBullet(float posX, float posY, float dirX, float dirY);
+void CreateBullet(float posX, float posY, float dirX, float dirY, const std::string& spawner);
 
 class BulletMoveComponent : public cycle::RootComponent
 {
@@ -20,12 +20,12 @@ public:
 	virtual void Update() override;
 	virtual void FixedUpdate() override {}
 
-	vec2 GetDir() const { return m_Dir; }
+	Fvec2 GetDir() const { return m_Dir; }
 
-	void UpdateDir(const vec2& dir);
+	void UpdateDir(const Fvec2& dir);
 
 private:
-	vec2 m_Dir;
+	Fvec2 m_Dir;
 
 	const float m_MoveSpeed;
 

@@ -18,13 +18,13 @@ void TurretComponent::Update()
 
 	if(abs(comp.first) > 0.001f || abs(comp.second) > 0.001f)
 	{
-		m_BarrelDir = vec2{ comp.first, -comp.second };
+		m_BarrelDir = Fvec2{ comp.first, -comp.second };
 	}
 }
 
 
-std::pair<vec2, vec2> TurretComponent::GetBarrelDir() const
+std::pair<Fvec2, Fvec2> TurretComponent::GetBarrelDir() const
 {
-	const vec2 barrelEndPoint{ m_BarrelPos.x + m_BarrelDir.x * m_BarrelLength, m_BarrelPos.y + m_BarrelDir.y * m_BarrelLength };
+	const Fvec2 barrelEndPoint{ m_BarrelPos.x + m_BarrelDir.x * m_BarrelLength, m_BarrelPos.y + m_BarrelDir.y * m_BarrelLength };
 	return { barrelEndPoint, m_BarrelDir};
 }

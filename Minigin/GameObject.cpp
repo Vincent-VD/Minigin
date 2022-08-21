@@ -3,10 +3,11 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-cycle::GameObject::GameObject(const std::vector<RootComponent*>& pComponents)
+cycle::GameObject::GameObject(const std::string& tag, const std::vector<RootComponent*>& pComponents)
 	: m_pTransform{ new TransformComponent{} }
 	, m_pComponents{ pComponents }
 	, m_pParent{ nullptr }
+	, m_Tag{ tag }
 {
 }
 
@@ -23,7 +24,7 @@ cycle::GameObject::~GameObject()
 
 void cycle::GameObject::m_MarkForDeletion()
 {
-	m_MarkedForDeletion = true;
+	MarkForDeletion();
 }
 
 void cycle::GameObject::Update()

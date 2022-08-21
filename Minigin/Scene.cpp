@@ -21,6 +21,13 @@ void Scene::Update()
 	{
 		object->Update();
 	}
+	for (size_t iter{}; iter < m_Objects.size(); ++iter)
+	{
+		if (m_Objects[iter]->IsMarkedForDeletion())
+		{
+			m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), m_Objects.at(iter)), m_Objects.end());
+		}
+	}
 }
 
 void Scene::FixedUpdate()

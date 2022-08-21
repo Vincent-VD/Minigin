@@ -146,9 +146,13 @@
     <ClCompile Include="BulletCollisionComponent.cpp" />
     <ClCompile Include="BulletMoveComponent.cpp" />
     <ClCompile Include="HudComponent.cpp" />
+    <ClCompile Include="HudObserver.cpp" />
+    <ClCompile Include="LifeComponent.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="PlayerCollisionComponent.cpp" />
+    <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
+    <ClCompile Include="SpawnPointManager.cpp" />
     <ClCompile Include="Tron.cpp" />
     <ClCompile Include="TronGame.cpp" />
     <ClCompile Include="TurretComponent.cpp" />
@@ -157,9 +161,13 @@
     <ClInclude Include="BulletCollisionComponent.h" />
     <ClInclude Include="BulletMoveComponent.h" />
     <ClInclude Include="HudComponent.h" />
+    <ClInclude Include="HudObserver.h" />
+    <ClInclude Include="LifeComponent.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="PlayerCollisionComponent.h" />
+    <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="ScoreComponent.h" />
+    <ClInclude Include="SpawnPointManager.h" />
     <ClInclude Include="TronGame.h" />
     <ClInclude Include="TurretComponent.h" />
   </ItemGroup>

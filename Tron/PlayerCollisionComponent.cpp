@@ -1,23 +1,48 @@
 #include "PlayerCollisionComponent.h"
 
+#include "BulletCollisionComponent.h"
 #include "GameObject.h"
+#include "LifeComponent.h"
 #include "MovementComponent.h"
+#include "SpawnPointManager.h"
+#include "Subject.h"
 
-PlayerCollisionComponent::PlayerCollisionComponent(cycle::GameObject* owner, const std::string& tag, float left, float bottom, float width, float height, bool isDynamic)
-	: BaseCollisionComponent(owner, tag, left, bottom, width, height, isDynamic)
+PlayerCollisionComponent::PlayerCollisionComponent(cycle::GameObject* owner, float left, float bottom, float width, float height, bool isDynamic)
+	: BaseCollisionComponent(owner, left, bottom, width, height, isDynamic)
 {
 	
 }
 
-void PlayerCollisionComponent::OnCollision()
+void PlayerCollisionComponent::OnCollision(BaseCollisionComponent* other)
 {
-	/*if(m_Tag != m_CollisionDetail.m_Tag && m_Tag != "tile")
+	if(other->GetOwner()->GetTag() == "bullet")
 	{
-		std::cout << "COLLISION:" << m_Tag << " - " << m_CollisionDetail.m_Tag << std::endl;
-		auto comp{ m_pGameObject->GetComponent<MovementComponent>() };
-		if(comp)
+		const auto otherColl = dynamic_cast<BulletCollisionComponent*>(other);
+		if (otherColl)
 		{
-			comp->UpdateDir(vec2{});
+			std::string bulletSpawner{ otherColl->GetSpawner() };
+			if(bulletSpawner != m_pGameObject->GetTag())
+			{
+				const cycle::Event ev{ cycle::GameEvent::ENEMY_KILLED, nullptr, bulletSpawner };
+				const auto subject{ m_pGameObject->GetComponent<cycle::Subject>() };
+				if (subject)
+				{
+					subject->Notify(ev);
+				}
+				otherColl->HasCollided();
+				const auto life{ m_pGameObject->GetComponent<LifeComponent>() };
+				if (life)
+				{
+					life->Hit();
+				}
+
+				auto currPosVec3{ m_pGameObject->GetTransform()->GetPosition() };
+				Fvec2 currPos{ currPosVec3.x, currPosVec3.y };
+				const Fvec2 newPos{ SpawnPointManager::GetInstance().GetSpawnPoint(currPos) };
+				m_pGameObject->GetTransform()->SetPosition(newPos.x, newPos.y, 0.f);
+
+			}
+			
 		}
-	}*/
+	}
 }

@@ -37,16 +37,15 @@ std::vector<BaseCollisionComponent*> CollisionManager::GetCollisions()
 	return m_pCollisionComponents;
 }
 
-
-
-BaseCollisionComponent::BaseCollisionComponent(GameObject* owner, const std::string& tag, float left, float bottom, float width, float height, bool isDynamic)
+BaseCollisionComponent::BaseCollisionComponent(GameObject* owner, float left, float bottom, float width, float height, bool isDynamic)
 	: RootComponent(owner)
+	, m_Tag(owner->GetTag())
 	, m_Rect{ Rectf{left, bottom, width, height} }
 	, m_IsDynamic(isDynamic)
-	, m_Tag(tag)
 	, m_CollisionDetail("", Rectf{})
 {
 	CollisionManager::GetInstance().AddCollision(this);
+	//std::cout << m_Tag << std::endl;
 }
 
 void BaseCollisionComponent::Update()
@@ -59,19 +58,19 @@ void BaseCollisionComponent::Update()
 		m_Rect.left = pos.x;
 		m_Rect.bottom = pos.y;
 	}
-	//todo: optimization through distance interpolation
-	const std::vector<BaseCollisionComponent*> components{ CollisionManager::GetInstance().GetCollisions() };
 
-	for (const BaseCollisionComponent* component : components)
+	//todo: optimization through distance interpolation
+
+	for (BaseCollisionComponent* component : CollisionManager::GetInstance().GetCollisions())
 	{
-		if (component->HandleCollision(m_Rect, component->m_Rect, component->m_Tag))
+		if (HandleCollision(m_Rect, component->m_Rect, component->m_Tag))
 		{
 			//std::cout << "FHJSDLF\n";
 			detail.m_Tag = component->m_Tag;
 			detail.m_CollisionThisFrame = true;
 			detail.m_OtherRect = component->m_Rect;
 			m_CollisionDetail = detail;
-			OnCollision();
+			OnCollision(component);
 		}
 	}
 	
@@ -87,7 +86,10 @@ void BaseCollisionComponent::Render() const
 
 bool BaseCollisionComponent::HandleCollision(const Rectf& rect1, const Rectf& rect2, const std::string& tag) const
 {
-	if(m_Tag != tag)
+
+	
+
+	if(m_Tag == tag)
 	{
 		return false;
 	}

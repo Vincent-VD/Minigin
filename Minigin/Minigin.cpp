@@ -82,7 +82,7 @@ void cycle::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
+	auto go = std::make_shared<GameObject>("test");
 	auto fps = new FPSComponent(go.get());
 	go->GetTransform()->SetPosition(80, 20, 0.f);
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
@@ -90,7 +90,7 @@ void cycle::Minigin::LoadGame() const
 	go->AddComponent(text);
 	go->AddComponent(fps);
 
-	auto input = new InputComponent(go.get());
+	auto input = new InputComponent(go.get(), 0);
 
 	//input->AddCommand('A', cycle::XBoxController::ControllerButton::ButtonA, std::make_unique<Test>(cycle::Command::InputType::pressed));
 
@@ -132,7 +132,6 @@ void cycle::Minigin::Run()
 	cycle::CollisionManager::GetInstance().Init();
 	AudioManager& audioManager{ AudioManager::GetInstance() };
 	audioManager.Init();
-	//std::cout << "Main thread ID: " << std::this_thread::get_id() << std::endl;
 
 	m_pGame->LoadGame();
 
@@ -149,8 +148,18 @@ void cycle::Minigin::Run()
 		auto lastTime = std::chrono::high_resolution_clock::now();
 		float lag{};
 		//float fixedTimeStep{ 0.02f };
+		SDL_Event e;
 		while (doContinue)
 		{
+			while (SDL_PollEvent(&e) != 0)
+			{
+				//User requests quit
+				if (e.type == SDL_QUIT)
+				{
+					doContinue = false;
+				}
+			}
+
 			const auto currentTime = std::chrono::high_resolution_clock::now();
 			float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 			timer.SetDeltaTime(deltaTime);
@@ -162,34 +171,17 @@ void cycle::Minigin::Run()
 			//doContinue = input.ProcessInput();
 			while (lag >= Minigin::MsPerFrame)
 			{
-				//TODO: fixed update here
 				sceneManager.FixedUpdate();
 				lag -= Minigin::MsPerFrame;
 			}
 			audioManager.Update();
 			sceneManager.Update();
 			renderer.Render();
-			if(CheckExit())
-			{
-				doContinue = false;
-			}
 
 			const auto sleepTime = currentTime + std::chrono::milliseconds(Minigin::MsPerFrame) - std::chrono::high_resolution_clock::now();
 			this_thread::sleep_for(sleepTime);
 		}
 	}
 
-	//t1.join();
 	Cleanup();
-}
-
-bool cycle::Minigin::CheckExit()
-{
-	SDL_Event event;
-	SDL_PollEvent(&event);
-	if(event.type == SDL_QUIT)
-	{
-		return true;
-	}
-	return false;
 }

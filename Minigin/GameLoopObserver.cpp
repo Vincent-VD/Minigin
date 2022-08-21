@@ -14,7 +14,7 @@ cycle::GameLoopObserver::GameLoopObserver()
 
 void cycle::GameLoopObserver::OnNotify(const Event& message)
 {
-	switch (message.event)
+	switch (message.m_Event)
 	{
 	case GameEvent::ENEMY_KILLED:
 		++m_PlayerScore;

@@ -1,4 +1,6 @@
 #include "XBoxController.h"
+
+#include <iostream>
 #include <Windows.h>
 #include <Xinput.h>
 
@@ -14,6 +16,13 @@ public:
 	{
 		ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 		ZeroMemory(&m_PreviousState, sizeof(XINPUT_STATE));
+		DWORD dwResult = XInputGetState(controllerIdx, &m_CurrentState);
+
+		if (dwResult != ERROR_SUCCESS)
+		{
+			// Controller is connected
+			std::cout << "Controller not detected\n";
+		}
 	}
 
 	~XBoxControllerImpl() = default;

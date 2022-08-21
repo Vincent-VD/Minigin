@@ -7,14 +7,14 @@
 #include "Minigin.h"
 #include "Renderer.h"
 
-vec2::vec2()
+Fvec2::Fvec2()
 	: x{0.f}
 	, y{0.f}
 {
 }
 
 
-vec2::vec2(float x, float y)
+Fvec2::Fvec2(float x, float y)
 	: x{x}
 	, y{y}
 {
@@ -22,7 +22,7 @@ vec2::vec2(float x, float y)
 
 MovementComponent::MovementComponent(cycle::GameObject* owner, float moveSpeed)
 	: RootComponent(owner)
-	, m_Dir(vec2{})
+	, m_Dir(Fvec2{})
 	, m_MoveSpeed(moveSpeed)
 {
 	
@@ -35,14 +35,12 @@ void MovementComponent::Update()
 	pos.x += m_Dir.x;
 	pos.y += m_Dir.y;
 	pos.x = std::max(0.f, pos.x);
-	//pos.x = std::min(cycle::g_WindowsInfo.m_Width, pos.x);
 	pos.y = std::max(0.f, pos.y);
-	//pos.y = std::max(cycle::g_WindowsInfo.m_Width, pos.y);
 
-	if(!cycle::BaseCollisionComponent::CheckForCollision(Rectf{ pos.x, pos.y, 28, 28 }, "tile"))
+	if(!m_pGameObject->GetComponent<cycle::BaseCollisionComponent>()->CheckForCollision(Rectf{ pos.x, pos.y, 28, 28 }, m_pGameObject->GetTag()))
 	{
 		m_pGameObject->GetTransform()->SetPosition(pos.x, pos.y, 0.f);
-		m_Dir = vec2{};
+		m_Dir = Fvec2{};
 	}
 
 }
@@ -57,7 +55,7 @@ void MovementComponent::Render() const
 }
 
 
-void MovementComponent::UpdateDir(const vec2& dir)
+void MovementComponent::UpdateDir(const Fvec2& dir)
 {
 	m_Dir.x = dir.x * m_MoveSpeed;
 	m_Dir.y = dir.y * m_MoveSpeed;

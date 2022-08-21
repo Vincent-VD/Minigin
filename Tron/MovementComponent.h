@@ -5,10 +5,10 @@
 #include "GameObject.h"
 #include "InputComponent.h"
 
-struct vec2
+struct Fvec2
 {
-	vec2();
-	vec2(float x, float y);
+	Fvec2();
+	Fvec2(float x, float y);
 
 	float x;
 	float y;
@@ -29,12 +29,12 @@ public:
 	virtual void FixedUpdate() override {}
 	virtual void Render() const override;
 
-	vec2 GetDir() const { return m_Dir; }
+	Fvec2 GetDir() const { return m_Dir; }
 
-	void UpdateDir(const vec2& dir);
+	void UpdateDir(const Fvec2& dir);
 
 private:
-	vec2 m_Dir;
+	Fvec2 m_Dir;
 
 	const float m_MoveSpeed;
 	
@@ -64,7 +64,7 @@ public:
 	virtual void Execute() override
 	{
 		//std::cout << "up\n";
-		m_Movement->UpdateDir(vec2{ 0, -1 });
+		m_Movement->UpdateDir(Fvec2{ 0, -1 });
 	}
 };
 
@@ -79,7 +79,7 @@ public:
 	virtual void Execute() override
 	{
 		//std::cout << "left\n";
-		m_Movement->UpdateDir(vec2{ -1, 0 });
+		m_Movement->UpdateDir(Fvec2{ -1, 0 });
 	}
 };
 
@@ -94,7 +94,7 @@ public:
 	virtual void Execute() override
 	{
 		//std::cout << "down\n";
-		m_Movement->UpdateDir(vec2{ 0, 1 });
+		m_Movement->UpdateDir(Fvec2{ 0, 1 });
 	}
 };
 
@@ -109,7 +109,7 @@ public:
 	virtual void Execute() override
 	{
 		//std::cout << "right\n";
-		m_Movement->UpdateDir(vec2{ 1, 0 });
+		m_Movement->UpdateDir(Fvec2{ 1, 0 });
 	}
 };
 
@@ -129,24 +129,24 @@ public:
 		{
 			if(stick.first > 0.001f)
 			{
-				m_Movement->UpdateDir(vec2{ 1, 0 });
+				m_Movement->UpdateDir(Fvec2{ 1, 0 });
 			}
 			else
 			{
-				m_Movement->UpdateDir(vec2{ -1, 0 });
+				m_Movement->UpdateDir(Fvec2{ -1, 0 });
 			}
 		}
 		else
 		{
 			if (stick.second > 0.001f)
 			{
-				m_Movement->UpdateDir(vec2{ 0, 1 });
+				m_Movement->UpdateDir(Fvec2{ 0, 1 });
 			}
 			else
 			{
-				m_Movement->UpdateDir(vec2{ 0, -1 });
+				m_Movement->UpdateDir(Fvec2{ 0, -1 });
 			}
 		}
-		m_Movement->UpdateDir(vec2{ 0, 1 });
+		m_Movement->UpdateDir(Fvec2{ 0, 1 });
 	}
 };

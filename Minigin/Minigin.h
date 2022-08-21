@@ -27,7 +27,7 @@ namespace cycle
 		void LoadGame() const;
 		void Cleanup();
 		void Run();
-		bool CheckExit();
+		//bool CheckExit();
 		//std::pair<int, int> GetWindowSize();
 
 	private:
