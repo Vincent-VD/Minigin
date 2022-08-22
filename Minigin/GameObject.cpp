@@ -109,16 +109,15 @@ void cycle::GameObject::AddChild(GameObject* obj)
 
 int cycle::GameObject::GetGOIndex(const GameObject* obj) const
 {
-	for(int iter = 0; iter < m_pChildren.size(); ++iter)
+	for(size_t iter = 0; iter < m_pChildren.size(); ++iter)
 	{
 		if(m_pChildren[iter] == obj)
 		{
-			return iter;
+			return static_cast<int>(iter);
 		}
 	}
 	return -1;
 }
-
 
 //void cycle::GameObject::SetTexture(const std::string& filename)
 //{

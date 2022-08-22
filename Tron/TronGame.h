@@ -21,6 +21,7 @@ public:
 	TronGame& operator=(TronGame&& other) noexcept = delete;
 
 	virtual void LoadGame() const override;
+	static void LoadEnd();
 
 	std::vector<std::shared_ptr<cycle::GameObject>> ReadLevelFile(const std::string& filename) const;
 

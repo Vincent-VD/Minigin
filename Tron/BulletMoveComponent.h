@@ -40,5 +40,10 @@ public:
 	{
 	}
 	virtual void Execute() override;
+
+	void PlaySound()
+	{
+		cycle::AudioManager::GetInstance().PlayAudio(cycle::SoundDesc{ cycle::SoundId::shoot, 1.f });
+	}
 	
 };

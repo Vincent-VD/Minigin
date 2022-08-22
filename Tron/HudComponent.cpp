@@ -57,3 +57,16 @@ int HudComponent::GetLiveScore(int playerId) const
 		return -1;
 	}
 }
+
+int HudComponent::GetScore(int playerId) const
+{
+	switch (playerId)
+	{
+	case 1:
+		return m_ScoreComponent1->GetScore();
+	case 2:
+		return m_ScoreComponent3->GetScore();
+	default:
+		return -1;
+	}
+}

@@ -19,6 +19,7 @@ public:
 	void ResetScore(const int playerId) const;
 
 	int GetLiveScore(int playerId) const;
+	int GetScore(int playerId) const;
 
 private:
 	ScoreComponent* m_ScoreComponent1;

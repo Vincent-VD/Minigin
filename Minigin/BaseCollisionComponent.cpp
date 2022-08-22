@@ -63,14 +63,18 @@ void BaseCollisionComponent::Update()
 
 	for (BaseCollisionComponent* component : CollisionManager::GetInstance().GetCollisions())
 	{
-		if (HandleCollision(m_Rect, component->m_Rect, component->m_Tag))
+		if (HandleCollision(m_Rect, component->m_Rect, component->m_Tag) && !m_IsColliding)
 		{
-			//std::cout << "FHJSDLF\n";
 			detail.m_Tag = component->m_Tag;
 			detail.m_CollisionThisFrame = true;
 			detail.m_OtherRect = component->m_Rect;
 			m_CollisionDetail = detail;
 			OnCollision(component);
+			m_IsColliding = true;
+		}
+		else
+		{
+			m_IsColliding = false;
 		}
 	}
 	
@@ -86,9 +90,6 @@ void BaseCollisionComponent::Render() const
 
 bool BaseCollisionComponent::HandleCollision(const Rectf& rect1, const Rectf& rect2, const std::string& tag) const
 {
-
-	
-
 	if(m_Tag == tag)
 	{
 		return false;
@@ -102,19 +103,6 @@ bool BaseCollisionComponent::HandleCollision(const Rectf& rect1, const Rectf& re
 		return true;
 	}
 	return false;
-	//// If one rectangle is on left side of the other
-	//if ((m_Rect.left + m_Rect.width) < actorShape.left || (actorShape.left + actorShape.width) < m_Rect.left)
-	//{
-	//	return false;
-	//}
-
-	//// If one rectangle is under the other
-	//if (m_Rect.bottom > (actorShape.bottom + actorShape.height) || actorShape.bottom > (m_Rect.bottom + m_Rect.height))
-	//{
-	//	return false;
-	//}
-
-	//return true;
 }
 
 //Checks if argument rectangle would collide with anything

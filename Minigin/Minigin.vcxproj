@@ -236,7 +236,6 @@
     <ClInclude Include="TextureComponent2D.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TransformComponent.h" />
-    <ClInclude Include="TrashTheCache.h" />
     <ClInclude Include="XBoxController.h" />
   </ItemGroup>
   <ItemGroup>
@@ -343,7 +342,6 @@
     <ClCompile Include="TextureComponent2D.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
-    <ClCompile Include="TrashTheCache.cpp" />
     <ClCompile Include="XBoxController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

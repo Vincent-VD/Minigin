@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <thread>
-#include <SDL_mixer.h>
+#include "SDL_mixer.h"
 #include "fmod.hpp"
 
 using namespace cycle;
@@ -175,8 +175,11 @@ void AudioManager::Update()
 	case SoundId::theme:
 		path += "S_Car_Pain_Edition_Overflow.wav";
 		break;
-	case SoundId::ram:
+	case SoundId::death:
 		path += "S_BatteringRamHit_04.wav";
+		break;
+	case SoundId::shoot:
+		path += "S_Slam_03.wav";
 		break;
 	}
 

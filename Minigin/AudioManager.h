@@ -2,7 +2,6 @@
 #include "Singleton.h"
 #include <vector>
 
-
 namespace FMOD
 {
 	class System;
@@ -14,7 +13,8 @@ namespace cycle
 	{
 		def = -1,
 		theme = 0,
-		ram = 1
+		death = 1,
+		shoot = 2
 	};
 
 	struct SoundDesc

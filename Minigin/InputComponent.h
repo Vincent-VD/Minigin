@@ -36,7 +36,7 @@ namespace cycle
 		const InputComponent* m_Input;
 	};
 
-	class Test final : public Command
+	/*class Test final : public Command
 	{
 	public:
 		Test(InputType type, const InputComponent* input = nullptr) : Command(type, input) {}
@@ -45,7 +45,7 @@ namespace cycle
 			AudioManager& audioManager{ AudioManager::GetInstance() };
 			audioManager.PlayAudio(SoundDesc{ SoundId::ram, 1.f });
 		}
-	};
+	};*/
 
 	class InputComponent final : public RootComponent
 	{

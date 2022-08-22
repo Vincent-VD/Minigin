@@ -21,7 +21,8 @@ void PlayerCollisionComponent::OnCollision(BaseCollisionComponent* other)
 		if (otherColl)
 		{
 			std::string bulletSpawner{ otherColl->GetSpawner() };
-			if(bulletSpawner != m_pGameObject->GetTag())
+			const std::string tag{ m_pGameObject->GetTag() };
+			if(bulletSpawner != tag)
 			{
 				const cycle::Event ev{ cycle::GameEvent::ENEMY_KILLED, nullptr, bulletSpawner };
 				const auto subject{ m_pGameObject->GetComponent<cycle::Subject>() };
@@ -40,9 +41,7 @@ void PlayerCollisionComponent::OnCollision(BaseCollisionComponent* other)
 				Fvec2 currPos{ currPosVec3.x, currPosVec3.y };
 				const Fvec2 newPos{ SpawnPointManager::GetInstance().GetSpawnPoint(currPos) };
 				m_pGameObject->GetTransform()->SetPosition(newPos.x, newPos.y, 0.f);
-
 			}
-			
 		}
 	}
 }

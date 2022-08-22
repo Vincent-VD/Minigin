@@ -13,7 +13,6 @@ void BulletCollisionComponent::OnCollision(BaseCollisionComponent* other)
 	if(other->GetOwner()->GetTag() == "tile")
 	{
 		//Calculate reflection
-		
 		const Fvec2 bulletDir{ m_pGameObject->GetComponent<BulletMoveComponent>()->GetDir() };
 		
 		const Fvec2 edgeNormal{ CalculateTileNormal(bulletDir) };

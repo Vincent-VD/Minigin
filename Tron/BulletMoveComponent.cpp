@@ -58,13 +58,9 @@ void CreateBullet(float posX, float posY, float dirX, float dirY, const std::str
 
 void FireBullet::Execute()
 {
-	//std::cout << "PLACEHOLDER BULLET CODE\n";
-
 	const auto barrelInfo{ m_Input->GetOwner()->GetComponent<TurretComponent>()->GetBarrelDir() };
 
-	/*const auto& ownerPos{ m_Input->GetOwner()->GetTransform()->GetPosition() };
-
-	const Fvec2 bulletSpawnPos{ ownerPos.x + barrelInfo.second * barrelInfo.first.x, ownerPos.y + barrelInfo.second * barrelInfo.first.y };*/
+	PlaySound();
 
 	CreateBullet(barrelInfo.first.x, barrelInfo.first.y, barrelInfo.second.x, barrelInfo.second.y, m_Input->GetOwner()->GetTag());
 }

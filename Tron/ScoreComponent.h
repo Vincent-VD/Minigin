@@ -1,11 +1,38 @@
 #pragma once
+#include <utility>
+
 #include "RootComponent.h"
+#include "Singleton.h"
 
 
 namespace cycle
 {
 	class TextComponent;
 }
+
+class ScoreTally : public cycle::Singleton<ScoreTally>
+{
+public:
+
+	void Init(cycle::GameObject* hud);
+	std::pair<int, int> DecideWinner();
+
+	virtual ~ScoreTally() override = default;
+	ScoreTally(const ScoreTally& other) = delete;
+	ScoreTally(ScoreTally&& other) noexcept = delete;
+	ScoreTally& operator=(const ScoreTally& other) = delete;
+	ScoreTally& operator=(ScoreTally&& other) noexcept = delete;
+
+private:
+	friend class Singleton<ScoreTally>;
+	ScoreTally() = default;
+
+	cycle::GameObject* m_Hud{};
+
+	int m_WinningScore{};
+	int m_WinningPlayerId{};
+
+};
 
 class ScoreComponent : public cycle::RootComponent
 {
@@ -25,6 +52,7 @@ public:
 	void ResetScore() { m_CurrScore = m_InitScore; }
 
 	int GetLiveScore() const;
+	int GetScore() const { return m_CurrScore; }
 
 private:
 	bool m_IsLiveScore;

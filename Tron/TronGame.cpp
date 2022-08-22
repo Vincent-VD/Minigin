@@ -9,16 +9,19 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "fstream"
+#include "HighScoreHandler.h"
 #include "HudComponent.h"
 #include "HudObserver.h"
 #include "LifeComponent.h"
 #include "Minigin.h"
 #include "MovementComponent.h"
 #include "PlayerCollisionComponent.h"
+#include "PlayerManager.h"
 #include "ScoreComponent.h"
 #include "SpawnPointManager.h"
 #include "Subject.h"
 #include "TextureComponent2D.h"
+#include "TileCollisionComponent.h"
 
 std::shared_ptr<cycle::GameObject> CreateTile(float x, float y);
 std::shared_ptr<cycle::GameObject> CreatePlayer(float x, float y, const int playerId);
@@ -27,7 +30,7 @@ std::vector<std::shared_ptr<cycle::GameObject>> CreateHUD();
 
 void TronGame::LoadGame() const
 {
-	auto& scene = cycle::SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = cycle::SceneManager::GetInstance().CreateScene("Level_1");
 
 	auto go = std::make_shared<cycle::GameObject>("fps");
 	auto fps = new cycle::FPSComponent(go.get());
@@ -37,7 +40,7 @@ void TronGame::LoadGame() const
 	go->AddComponent(text);
 	go->AddComponent(fps);
 
-	std::vector<std::shared_ptr<cycle::GameObject>> grid{ ReadLevelFile("Data/Level_1.txt") };
+	std::vector<std::shared_ptr<cycle::GameObject>> grid{ ReadLevelFile("../Data/Level_1.txt") };
 
 	for (std::shared_ptr<cycle::GameObject>& gameObject : grid)
 	{
@@ -50,6 +53,7 @@ void TronGame::LoadGame() const
 	const std::vector<Fvec2> spawnPoints{ pos1, pos2 };
 
 	SpawnPointManager::GetInstance().Init(spawnPoints);
+	PlayerManager::GetInstance().Init();
 
 	std::vector<std::shared_ptr<cycle::GameObject>> hud{ CreateHUD() };
 
@@ -71,10 +75,51 @@ void TronGame::LoadGame() const
 	}
 
 	scene.Add(player1);
+	PlayerManager::GetInstance().AddPlayer(player1.get());
 	scene.Add(player2);
+	PlayerManager::GetInstance().AddPlayer(player2.get());
+
+	ScoreTally::GetInstance().Init(hud[0].get());
 
 	scene.Add(go);
 }
+
+void TronGame::LoadEnd()
+{
+	auto& scene = cycle::SceneManager::GetInstance().CreateScene("End");
+
+	auto go = std::make_shared<cycle::GameObject>("title");
+	auto font = cycle::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto winner{ ScoreTally::GetInstance().DecideWinner() };
+	auto text = new cycle::TextComponent(go.get(), "Player " + std::to_string(winner.second) + " has won!", font);
+	go->GetTransform()->SetPosition(cycle::g_WindowsInfo.m_Width / 2.f - 100.f, 100.f, 0.f);
+	go->AddComponent(text);
+	scene.Add(go);
+
+	font = cycle::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
+	std::vector<cycle::TextComponent*> textComps{};
+	for(int iter = 1; iter < 11; ++iter)
+	{
+		auto obj = std::make_shared<cycle::GameObject>("top10");
+		cycle::TextComponent* textComp = new cycle::TextComponent(obj.get(), "test", font);
+		textComps.push_back(textComp);
+		obj->GetTransform()->SetPosition(cycle::g_WindowsInfo.m_Width / 2.f - 150.f, (iter * 60.f), 0.f);
+		obj->AddComponent(textComp);
+		scene.Add(obj);
+	}
+
+	HighScoreHandler highScore{ textComps };
+	highScore.ReadScoreFromFile();
+	highScore.InsertNewScore();
+	highScore.SetTextToComponent();
+	highScore.WriteScoreToFile();
+	
+
+	//scene.Add(go);
+
+	cycle::SceneManager::GetInstance().NextScene();
+}
+
 
 std::vector<std::shared_ptr<cycle::GameObject>> TronGame::ReadLevelFile(const std::string& filename) const
 {
@@ -103,6 +148,7 @@ std::vector<std::shared_ptr<cycle::GameObject>> TronGame::ReadLevelFile(const st
 		
 	}
 
+	obj.close();
 	return res;
 }
 
@@ -110,7 +156,7 @@ std::shared_ptr<cycle::GameObject> CreateTile(float x, float y)
 {
 	std::shared_ptr<cycle::GameObject> go = std::make_shared<cycle::GameObject>("tile");
 	cycle::TextureComponent2D* textureComp{ new cycle::TextureComponent2D{go.get(), "Tile.png", x, y, 32, 32, false}};
-	PlayerCollisionComponent* collisionComp{ new PlayerCollisionComponent{go.get(), x, y, 32, 32, false}};
+	TileCollisionComponent* collisionComp{ new TileCollisionComponent{go.get(), x, y, 32, 32, false}};
 
 	go->GetTransform()->SetPosition(x, y, 0.f);
 	go->AddComponent(textureComp);
@@ -122,7 +168,7 @@ std::shared_ptr<cycle::GameObject> CreateTile(float x, float y)
 std::shared_ptr<cycle::GameObject> CreatePlayer(float x, float y, const int playerId)
 {
 	std::shared_ptr<cycle::GameObject> go = std::make_shared<cycle::GameObject>("player_" + std::to_string(playerId));
-	cycle::TextureComponent2D* textureComp{ new cycle::TextureComponent2D{go.get(), "Tank_1.png", x, y, 32, 32, true} };
+	cycle::TextureComponent2D* textureComp{ new cycle::TextureComponent2D{go.get(), "Tank_" + std::to_string(playerId) + ".png", x, y, 32, 32, true} };
 	PlayerCollisionComponent* collisionComp{ new PlayerCollisionComponent{go.get(), x, y, 28, 28, true}};
 
 	MovementComponent* movementComp{ new MovementComponent(go.get()) };
@@ -136,7 +182,7 @@ std::shared_ptr<cycle::GameObject> CreatePlayer(float x, float y, const int play
 	inputComponent->AddCommand('A', cycle::XBoxController::ControllerButton::DPadLeft, std::make_unique<MoveLeft>(cycle::Command::InputType::held, inputComponent, movementComp));
 	inputComponent->AddCommand('S', cycle::XBoxController::ControllerButton::DPadDown, std::make_unique<MoveDown>(cycle::Command::InputType::held, inputComponent, movementComp));
 	inputComponent->AddCommand('D', cycle::XBoxController::ControllerButton::DPadRight, std::make_unique<MoveRight>(cycle::Command::InputType::held, inputComponent, movementComp));
-	inputComponent->AddCommand('\0', cycle::XBoxController::ControllerButton::LeftStick, std::make_unique<MoveStick>(cycle::Command::InputType::held, inputComponent, movementComp)); 
+	inputComponent->AddCommand('\0', cycle::XBoxController::ControllerButton::LeftStick, std::make_unique<MoveStick>(cycle::Command::InputType::held, inputComponent, movementComp));
 	inputComponent->AddCommand('R', cycle::XBoxController::ControllerButton::RightShoulder, std::make_unique<FireBullet>(cycle::Command::InputType::pressed, inputComponent));
 
 	go->GetTransform()->SetPosition(x, y, 0.f);

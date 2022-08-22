@@ -81,6 +81,8 @@ namespace cycle
 		Rectf m_Rect;
 		const bool m_IsDynamic;
 
+		bool m_IsColliding{ false };
+
 		CollisionDetail m_CollisionDetail; //tag of object component collided with this frame
 
 		//std::string GetTag() { return m_Tag; }

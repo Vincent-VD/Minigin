@@ -140,7 +140,7 @@ void cycle::Minigin::Run()
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& timer = Timer::GetInstance();
 
-		//audioManager.PlayAudio(SoundDesc{ SoundId::theme, 1.f });
+		audioManager.PlayAudio(SoundDesc{ SoundId::theme, 1.f });
 		
 
 		// todo: this update loop could use some work.
